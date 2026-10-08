@@ -1,8 +1,12 @@
-// Cloudflare config. For Cloudflare Pages: build command `npm run build`, output directory `dist`.
-// Docs: https://developers.cloudflare.com/pages/framework-guides/deploy-an-astro-site/
+// Cloudflare config: the site is fully static, so the Worker only serves the `dist/` folder.
+// Works with Cloudflare's Git integration (build: `npm run build`, deploy: `npx wrangler deploy`).
+// Docs: https://developers.cloudflare.com/workers/static-assets/
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "hearts-in-action",
   "compatibility_date": "2026-09-01",
-  "pages_build_output_dir": "./dist",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page",
+  },
 }

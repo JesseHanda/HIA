@@ -23,7 +23,10 @@ Also set `site.site` in `src/config.yaml` and the Sitemap line in `public/robots
 
 `npm install` · `npm run dev` · `npm run build` · `npm run check`
 
-## Deploy on Cloudflare Pages
+## Deploy on Cloudflare
+Connect the repo (root = this folder) and use:
+- Build command: `npm run build`
+- Deploy command: `npx wrangler deploy` (reads `wrangler.jsonc`, uploads `dist/`)
+- Optional env var: `NODE_VERSION=22`
 
-Connect the repo (root = this folder) and use: build command `npm run build`, output directory `dist`.
-Optionally set env var `NODE_VERSION=22`.
+If you use the older Pages flow instead, there is no deploy command: build `npm run build`, output directory `dist`.
