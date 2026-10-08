@@ -24,7 +24,9 @@ Also set `site.site` in `src/config.yaml` and the Sitemap line in `public/robots
 `npm install` · `npm run dev` · `npm run build` · `npm run check`
 
 ## Deploy on Cloudflare
+
 Connect the repo (root = this folder) and use:
+
 - Build command: `npm run build`
 - Deploy command: `npx wrangler deploy` (reads `wrangler.jsonc`, uploads `dist/`)
 - Optional env var: `NODE_VERSION=22`

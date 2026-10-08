@@ -2,37 +2,35 @@
 import { Icon } from 'astro-icon/components';
 import Button from '~/components/ui/Button.astro';
 import VideoShowcase from './VideoShowcase.astro';
-import { program, pricing, safety } from '~/data/program';
+import GardenScene from './GardenScene.astro';
+import { program, pricing, safety, educator, integrations } from '~/data/program';
 
-const badges = [
-  { icon: 'tabler:users-group', label: `Small groups · max ${program.maxGroupSize}` },
-  { icon: 'tabler:mood-smile', label: 'Beginner friendly' },
-  { icon: 'tabler:school', label: 'AMS-trained Montessori educator' },
+const hasVideo = Boolean(integrations.videoEmbedUrl);
+
+const trust = [
+  { icon: 'tabler:users-group', label: `Small groups, max ${program.maxGroupSize}` },
+  { icon: 'tabler:first-aid-kit', label: 'Allergy notes kept on hand' },
+  { icon: 'tabler:school', label: educator.badge },
   { icon: 'tabler:package', label: 'All materials included' },
   ...(safety.backgroundChecked ? [{ icon: 'tabler:shield-check', label: 'Background-checked facilitator' }] : []),
 ];
 ---
 
 <section class="relative overflow-hidden not-prose">
-  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-rose-50 via-amber-50/60 to-transparent" aria-hidden="true">
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-rose-50 via-amber-50/50 to-transparent" aria-hidden="true">
   </div>
-  <div class="absolute -right-24 -top-24 -z-10 h-96 w-96 rounded-full bg-rose-200/40 blur-3xl" aria-hidden="true"></div>
-  <div class="absolute -left-24 top-1/2 -z-10 h-80 w-80 rounded-full bg-green-200/40 blur-3xl" aria-hidden="true"></div>
 
-  <div class="mx-auto grid max-w-7xl items-center gap-12 px-4 py-12 md:px-6 md:py-16 lg:grid-cols-2 lg:gap-14 lg:py-24">
+  <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 py-10 md:px-6 md:py-14 lg:grid-cols-2 lg:gap-14 lg:py-20">
     <div class="text-center lg:text-left">
-      <p
-        class="mb-5 inline-flex items-center gap-2 rounded-full border border-rose-200 bg-white/80 px-4 py-1.5 text-sm font-semibold text-secondary"
-      >
-        <Icon name="tabler:heart-filled" class="h-4 w-4 text-primary" />
-        {program.sessions}-week program · {program.grades} · {program.city}
-      </p>
       <h1
         class="font-heading text-4xl font-extrabold leading-[1.1] tracking-tight text-heading text-balance md:text-5xl lg:text-6xl"
       >
         Help your child grow a kind heart — and <span class="text-primary">put it into action.</span>
       </h1>
-      <p class="mx-auto mt-6 max-w-xl text-lg text-muted text-pretty lg:mx-0 md:text-xl">
+      <p class="mt-4 text-base font-semibold text-secondary md:text-lg">
+        {program.sessions}-week program · {program.grades} · {program.city}
+      </p>
+      <p class="mx-auto mt-4 max-w-xl text-lg text-muted text-pretty lg:mx-0 md:text-xl">
         In {program.sessions} weekly sessions, children plant seeds, build a living garden and practise gratitude, kindness,
         empathy and courage — so they learn that even small actions make a difference.
       </p>
@@ -45,6 +43,7 @@ const badges = [
           icon="tabler:arrow-right"
           class="w-full px-8 py-4 text-lg shadow-lg shadow-rose-500/25 sm:w-auto"
           data-open-register
+          data-hero-cta
         />
         <Button text="See the 8-week journey" href="#curriculum" class="w-full sm:w-auto" />
       </div>
@@ -52,11 +51,14 @@ const badges = [
         {pricing.base} + HST per child ({pricing.total} total) · Limited to {program.maxGroupSize} children per group
       </p>
 
-      <ul class="mt-8 flex flex-wrap justify-center gap-2 lg:justify-start" aria-label="Why parents choose us">
+      <ul
+        class="mx-auto mt-8 grid max-w-xl grid-cols-1 gap-x-6 gap-y-2.5 text-left text-[0.95rem] font-medium text-default min-[420px]:grid-cols-2 lg:mx-0"
+        aria-label="Why parents choose us"
+      >
         {
-          badges.map((b) => (
-            <li class="inline-flex items-center gap-1.5 rounded-full border border-gray-200 bg-white px-3 py-1.5 text-sm font-medium text-default shadow-sm">
-              <Icon name={b.icon} class="h-4 w-4 text-accent" />
+          trust.map((b) => (
+            <li class="flex items-center gap-2.5">
+              <Icon name={b.icon} class="h-5 w-5 flex-none text-accent" />
               {b.label}
             </li>
           ))
@@ -64,12 +66,20 @@ const badges = [
       </ul>
     </div>
 
-    <div class="relative">
-      <VideoShowcase />
+    <div class="relative mx-auto w-full max-w-xl lg:max-w-none">
+      {
+        hasVideo ? (
+          <VideoShowcase />
+        ) : (
+          <div class="aspect-[4/3] w-full overflow-hidden rounded-[2rem] bg-gradient-to-br from-rose-50 via-amber-50 to-green-50 shadow-xl shadow-rose-900/10 ring-1 ring-rose-900/10">
+            <GardenScene />
+          </div>
+        )
+      }
       <div
-        class="absolute -bottom-5 left-4 hidden rotate-[-3deg] rounded-2xl bg-white px-4 py-3 shadow-xl ring-1 ring-black/5 sm:block"
+        class="absolute -bottom-5 left-4 rotate-[-2deg] rounded-2xl bg-white px-4 py-3 shadow-lg shadow-rose-900/10 ring-1 ring-black/5 sm:left-6"
       >
-        <p class="text-xs font-semibold uppercase tracking-wide text-accent">The big idea</p>
+        <p class="text-xs font-bold uppercase tracking-wide text-accent">The big idea</p>
         <p class="font-heading text-lg font-bold text-heading">The world is bigger than me.</p>
       </div>
     </div>

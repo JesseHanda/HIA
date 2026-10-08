@@ -1,0 +1,88 @@
+---
+// Shared layout for the Privacy Policy and Program Terms: title block, contents list, numbered sections.
+import { legal } from '~/data/program';
+
+export interface Section {
+  title: string;
+  /** Trusted HTML (paragraphs, lists, links) written in the page that owns the document. */
+  body: string;
+}
+
+export interface Props {
+  title: string;
+  intro: string;
+  sections: Section[];
+  related: { text: string; href: string };
+}
+
+const { title, intro, sections, related } = Astro.props;
+const withIds = sections.map((s, i) => ({ ...s, id: `s${i + 1}`, n: i + 1 }));
+---
+
+<div class="mx-auto max-w-6xl px-4 py-12 md:px-6 md:py-16">
+  <header class="max-w-3xl">
+    <h1 class="font-heading text-4xl font-extrabold tracking-tight text-heading text-balance md:text-5xl">{title}</h1>
+    <p class="mt-3 text-sm font-medium text-muted">
+      {legal.entity} · Effective {legal.effectiveDate}
+    </p>
+    <p class="mt-5 text-lg text-default text-pretty">{intro}</p>
+  </header>
+
+  <div class="mt-10 grid gap-10 lg:grid-cols-[16rem_1fr] lg:gap-14">
+    <details class="rounded-2xl bg-rose-50 px-4 py-3 ring-1 ring-rose-200 lg:hidden">
+      <summary class="cursor-pointer text-sm font-bold text-heading">Contents</summary>
+      <ol class="mt-2 space-y-0.5 text-sm">
+        {
+          withIds.map((s) => (
+            <li>
+              <a
+                href={`#${s.id}`}
+                class="-ml-px flex min-h-9 items-center gap-2 border-l border-transparent py-1 pl-4 text-muted hover:border-primary hover:text-heading"
+              >
+                <span class="w-5 flex-none tabular-nums text-rose-700">{s.n}.</span>
+                <span>{s.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </details>
+    <nav aria-label={`${title} contents`} class="hidden lg:sticky lg:top-24 lg:block lg:self-start">
+      <p class="mb-3 text-sm font-bold text-heading">Contents</p>
+      <ol class="space-y-0.5 border-l border-rose-200 text-sm">
+        {
+          withIds.map((s) => (
+            <li>
+              <a
+                href={`#${s.id}`}
+                class="-ml-px flex min-h-9 items-center gap-2 border-l border-transparent py-1 pl-4 text-muted hover:border-primary hover:text-heading"
+              >
+                <span class="w-5 flex-none tabular-nums text-rose-700">{s.n}.</span>
+                <span>{s.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <article class="max-w-3xl">
+      {
+        withIds.map((s) => (
+          <section id={s.id} class="scroll-mt-24 border-t border-gray-200 py-8 first:border-t-0 first:pt-0">
+            <h2 class="font-heading text-2xl font-bold text-heading">
+              <span class="tabular-nums text-rose-700">{s.n}.</span> {s.title}
+            </h2>
+            <div
+              class="prose prose-lg mt-4 max-w-none text-default prose-a:text-secondary prose-a:underline-offset-2 prose-li:my-1 prose-strong:text-heading"
+              set:html={s.body}
+            />
+          </section>
+        ))
+      }
+      <p class="mt-4 border-t border-gray-200 pt-6 text-sm text-muted">
+        See also our <a class="font-semibold text-secondary underline" href={related.href}>{related.text}</a>.
+      </p>
+    </article>
+  </div>
+</div>

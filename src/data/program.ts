@@ -40,6 +40,19 @@ export const program = {
 
   contactEmail: 'test@gmail.com', // EDIT
   contactPhone: '905-XXX-XXXX', // EDIT
+
+  // Shown under "Dates" while startDate is still a placeholder. EDIT the wording to match what you will really do.
+  datesNote: 'Registered families are emailed as soon as dates are set.',
+};
+
+// ───────────────────────── EDUCATOR ─────────────────────────
+// EDIT: confirm these credentials are accurate before launch; every mention on the page reads from here.
+export const educator = {
+  name: 'Rekha Mahbubani',
+  credential: 'AMS-Trained Montessori Educator',
+  badge: 'AMS-trained Montessori educator',
+  role: 'Character Enrichment Program Creator',
+  initials: 'RM',
 };
 
 // ───────────────────────── PRICING ─────────────────────────
@@ -153,49 +166,51 @@ export const weeks = [
 // ───────────────────────── GALLERY ─────────────────────────
 // EDIT: to use real photos, drop images in /public/gallery/ and set `src: '/gallery/your-photo.jpg'`.
 // Tiles without a `src` render as illustrated placeholders.
+export const galleryNote = 'Drawn illustrations for now — photos from our first group will take their place.';
+export type GalleryArt = 'seed' | 'book' | 'garden' | 'craft' | 'gift' | 'certificate';
 export const gallery: Array<{
   title: string;
   caption: string;
-  icon: string;
-  tone: string;
+  art: GalleryArt;
+  tone: 'rose' | 'green' | 'cream';
   src?: string;
   alt?: string;
 }> = [
   {
     title: 'Plant a Little Gratitude',
     caption: 'Every child plants a seed to grow at home.',
-    icon: 'tabler:seeding',
+    art: 'seed',
     tone: 'green',
   },
   {
     title: 'Stories & Conversations',
     caption: 'Age-appropriate stories spark big questions.',
-    icon: 'tabler:book-2',
+    art: 'book',
     tone: 'rose',
   },
   {
     title: 'The Hearts in Action Garden',
     caption: 'A portable garden that grows every week.',
-    icon: 'tabler:flower',
-    tone: 'amber',
+    art: 'garden',
+    tone: 'cream',
   },
   {
     title: 'Hands-on Creating',
     caption: 'Drawing, writing and making together.',
-    icon: 'tabler:palette',
-    tone: 'sky',
+    art: 'craft',
+    tone: 'green',
   },
   {
     title: 'Take-Home Keepsakes',
     caption: 'A simple keepsake or experience every week.',
-    icon: 'tabler:gift',
+    art: 'gift',
     tone: 'rose',
   },
   {
     title: 'Certificate & Celebration',
     caption: 'Celebrating how far they’ve grown in Week 8.',
-    icon: 'tabler:certificate',
-    tone: 'green',
+    art: 'certificate',
+    tone: 'cream',
   },
 ];
 
@@ -239,3 +254,28 @@ export const faqs = [
     a: 'Pay by credit card for instant confirmation, or by Interac e-Transfer. Your spot is held temporarily while we verify an e-Transfer, and we confirm it by email as soon as it arrives.',
   },
 ];
+
+// ───────────────────────── LAUNCH CHECK ─────────────────────────
+// Placeholder values that must be replaced before the site goes live (used for a console warning at build/dev time).
+export const placeholderWarnings = (): string[] => {
+  const warnings: string[] = [];
+  if (integrations.stripePaymentLink.includes('placeholder')) warnings.push('integrations.stripePaymentLink');
+  if (integrations.web3formsAccessKey.startsWith('YOUR_')) warnings.push('integrations.web3formsAccessKey');
+  if (/XXX/.test(program.contactPhone)) warnings.push('program.contactPhone');
+  if (/^test@|@example\./.test(program.contactEmail)) warnings.push('program.contactEmail');
+  if (/@example\./.test(etransfer.email)) warnings.push('etransfer.email');
+  return warnings;
+};
+
+// ───────────────────────── LEGAL ─────────────────────────
+// EDIT: confirm each value below matches how you actually operate, and have a lawyer review /terms and /privacy before launch.
+export const legal = {
+  effectiveDate: 'October 8, 2026',
+  // Name the policies use for "we". Replace with your registered business name if you have one.
+  entity: 'Hearts in Action',
+  operator: educator.name,
+  // How long medical, allergy and emergency-contact details are kept after the program ends.
+  medicalRetentionMonths: 12,
+  // Days we commit to answering a privacy request.
+  responseDays: 30,
+};

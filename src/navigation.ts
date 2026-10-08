@@ -1,5 +1,5 @@
 import { getPermalink } from './utils/permalinks';
-import { program } from './data/program';
+import { program, educator } from './data/program';
 
 export const headerData = {
   links: [
@@ -15,6 +15,7 @@ export const headerData = {
 };
 
 export const footerData = {
+  tagline: program.tagline,
   links: [
     {
       title: 'Program',
@@ -46,5 +47,5 @@ export const footerData = {
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
   socialLinks: [{ ariaLabel: 'Email', icon: 'tabler:mail', href: `mailto:${program.contactEmail}` }],
-  footNote: `© ${new Date().getFullYear()} Hearts in Action · Created &amp; facilitated by Rekha Mahbubani · ${program.city}`,
+  footNote: `© ${new Date().getFullYear()} Hearts in Action · Created &amp; facilitated by ${educator.name} · ${program.city}`,
 };

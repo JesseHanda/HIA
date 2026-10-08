@@ -1,14 +1,13 @@
 ---
-import { Icon } from 'astro-icon/components';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Headline from '~/components/ui/Headline.astro';
-import { gallery } from '~/data/program';
+import Art from './Art.astro';
+import { gallery, galleryNote } from '~/data/program';
 
-const tones: Record<string, { bg: string; icon: string }> = {
-  rose: { bg: 'from-rose-100 to-rose-50', icon: 'text-rose-500' },
-  green: { bg: 'from-green-100 to-emerald-50', icon: 'text-green-600' },
-  amber: { bg: 'from-amber-100 to-orange-50', icon: 'text-amber-600' },
-  sky: { bg: 'from-sky-100 to-indigo-50', icon: 'text-sky-600' },
+const tones: Record<string, string> = {
+  rose: 'bg-rose-100',
+  green: 'bg-green-100',
+  cream: 'bg-amber-50',
 };
 ---
 
@@ -16,26 +15,27 @@ const tones: Record<string, { bg: string; icon: string }> = {
   GALLERY — replace the illustrated placeholders with real photos:
   put images in /public/gallery/ and set `src` on the matching entry in src/data/program.ts.
 -->
-<WidgetWrapper id="gallery" containerClass="max-w-6xl">
+<WidgetWrapper id="gallery" containerClass="max-w-6xl" tone="green">
   <Headline
-    tagline="A peek inside"
     title="Hands-on, joyful and unforgettable"
     subtitle="Children learn by doing — planting, creating, talking and building a garden together."
   />
 
-  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-    {
-      gallery.map((g) => {
-        const tone = tones[g.tone] ?? tones.rose;
-        return (
-          <li class="group overflow-hidden rounded-3xl border border-gray-200/80 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
-            <div class={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${tone.bg}`}>
+  <div
+    class="-mx-4 overflow-x-auto px-4 pb-4 [scrollbar-width:thin] sm:mx-0 sm:overflow-visible sm:px-0 sm:pb-0"
+    role="group"
+    aria-label="Program highlights. Scroll sideways to see them all."
+    tabindex="0"
+  >
+    <ul class="flex snap-x snap-mandatory gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+      {
+        gallery.map((g) => (
+          <li class="group w-[78%] flex-none snap-start overflow-hidden rounded-3xl bg-white shadow-md shadow-green-900/5 ring-1 ring-green-900/10 motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 sm:w-auto">
+            <div class={`relative aspect-[4/3] overflow-hidden ${tones[g.tone] ?? tones.rose}`}>
               {g.src ? (
                 <img src={g.src} alt={g.alt ?? g.title} loading="lazy" class="h-full w-full object-cover" />
               ) : (
-                <div class="flex h-full w-full items-center justify-center" aria-hidden="true">
-                  <Icon name={g.icon} class={`h-20 w-20 transition duration-300 group-hover:scale-110 ${tone.icon}`} />
-                </div>
+                <Art name={g.art} class="absolute inset-0 h-full w-full p-5" />
               )}
             </div>
             <div class="p-5">
@@ -43,8 +43,9 @@ const tones: Record<string, { bg: string; icon: string }> = {
               <p class="mt-1 text-sm text-muted">{g.caption}</p>
             </div>
           </li>
-        );
-      })
-    }
-  </ul>
+        ))
+      }
+    </ul>
+  </div>
+  {gallery.some((g) => !g.src) && <p class="mt-6 text-center text-sm text-muted">{galleryNote}</p>}
 </WidgetWrapper>

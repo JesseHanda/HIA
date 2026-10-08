@@ -18,16 +18,12 @@ const faqSchema = {
 
 <WidgetWrapper id="faq" containerClass="max-w-3xl">
   <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} is:inline />
-  <Headline
-    tagline="Parent FAQs"
-    title="Questions parents ask us"
-    subtitle="Can’t find your answer? We’re always happy to help."
-  />
+  <Headline title="Questions parents ask us" subtitle="Can’t find your answer? We’re always happy to help." />
 
   <div class="space-y-3">
     {
       faqs.map((f) => (
-        <details class="group rounded-2xl border border-gray-200 bg-white shadow-sm transition open:border-rose-300 open:shadow-md">
+        <details class="group rounded-2xl border border-gray-200 bg-white shadow-sm open:border-rose-300 open:shadow-md motion-safe:transition">
           <summary class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 font-heading text-lg font-bold text-heading [&::-webkit-details-marker]:hidden">
             {f.q}
             <Icon
@@ -43,7 +39,7 @@ const faqSchema = {
 
   <p class="mt-8 text-center text-muted">
     Still wondering about something? Email
-    <a class="font-semibold text-primary hover:underline" href={`mailto:${program.contactEmail}`}>
+    <a class="font-semibold text-secondary hover:underline" href={`mailto:${program.contactEmail}`}>
       {program.contactEmail}
     </a>
     or call {program.contactPhone}.

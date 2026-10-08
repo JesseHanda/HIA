@@ -10,7 +10,15 @@ import Faq from '~/components/hia/Faq.astro';
 import Pricing from '~/components/hia/Pricing.astro';
 import FinalCta from '~/components/hia/FinalCta.astro';
 import RegistrationModal from '~/components/hia/RegistrationModal.astro';
-import { program, pricing } from '~/data/program';
+import StickyRegister from '~/components/hia/StickyRegister.astro';
+import { program, pricing, educator, placeholderWarnings } from '~/data/program';
+
+const placeholders = placeholderWarnings();
+if (placeholders.length) {
+  console.warn(
+    `[hearts-in-action] Replace placeholder values in src/data/program.ts before launch: ${placeholders.join(', ')}`
+  );
+}
 
 const metadata = {
   title: 'Hearts in Action — 8-Week Character Program for Grades 1–3 in Burlington, Ontario',
@@ -23,7 +31,7 @@ const structuredData = {
   '@type': 'Course',
   name: 'Hearts in Action — Character Enrichment Program',
   description: metadata.description,
-  provider: { '@type': 'Person', name: 'Rekha Mahbubani' },
+  provider: { '@type': 'Person', name: educator.name },
   educationalLevel: program.grades,
   offers: { '@type': 'Offer', price: '224.87', priceCurrency: 'CAD', category: 'Paid' },
 };
@@ -41,5 +49,6 @@ const structuredData = {
   <Pricing />
   <Faq />
   <FinalCta />
+  <StickyRegister />
   <RegistrationModal />
 </Layout>

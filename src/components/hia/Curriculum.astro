@@ -15,14 +15,13 @@ const rhythm = [
 
 <WidgetWrapper id="curriculum" containerClass="max-w-6xl">
   <Headline
-    tagline="Our 8-week journey"
     title="One quality each week. One new part of the garden."
     subtitle="Children help build a portable Hearts in Action Garden that grows alongside them — a visual reminder that character grows over time."
   />
 
   <div class="grid gap-8 lg:grid-cols-[1fr_1.6fr] lg:gap-12">
-    <div class="space-y-6 lg:sticky lg:top-24 lg:self-start">
-      <div class="rounded-3xl border border-green-200 bg-gradient-to-br from-green-50 to-amber-50 p-6">
+    <div class="order-2 space-y-6 lg:sticky lg:top-24 lg:order-1 lg:self-start">
+      <div class="rounded-3xl bg-green-50 p-6 ring-1 ring-green-200">
         <h3 class="flex items-center gap-2 font-heading text-xl font-bold text-heading">
           <Icon name="tabler:flower" class="h-6 w-6 text-accent" />
           Inside every 60-minute session
@@ -40,7 +39,7 @@ const rhythm = [
           }
         </ol>
       </div>
-      <div class="rounded-3xl border border-rose-200 bg-rose-50/70 p-6">
+      <div class="rounded-3xl bg-rose-50 p-6 ring-1 ring-rose-200">
         <h3 class="flex items-center gap-2 font-heading text-xl font-bold text-heading">
           <Icon name="tabler:gift" class="h-6 w-6 text-primary" />
           Every week, children take home
@@ -52,17 +51,17 @@ const rhythm = [
       </div>
     </div>
 
-    <div class="space-y-3" data-curriculum>
+    <div class="order-1 space-y-3 lg:order-2" data-curriculum>
       {
         weeks.map((w, i) => (
           <details
             name="hia-week"
             open={i === 0}
-            class="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm transition open:border-rose-300 open:shadow-md"
+            class="group overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm open:border-rose-300 open:shadow-md motion-safe:transition"
           >
             <summary class="flex cursor-pointer list-none items-center gap-4 p-4 sm:p-5 [&::-webkit-details-marker]:hidden">
               <span class="flex h-12 w-12 flex-none flex-col items-center justify-center rounded-xl bg-rose-50 text-primary">
-                <span class="text-[0.65rem] font-bold uppercase leading-none">Week</span>
+                <span class="text-xs font-bold uppercase leading-none text-secondary">Week</span>
                 <span class="font-heading text-xl font-extrabold leading-none">{w.n}</span>
               </span>
               <span class="min-w-0 flex-1">

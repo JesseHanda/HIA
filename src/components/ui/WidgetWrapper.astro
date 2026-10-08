@@ -5,10 +5,14 @@ import { twMerge } from 'tailwind-merge';
 
 export interface Props extends Widget {
   containerClass?: string;
+  /** Soft section ground so consecutive sections don't read as one flat page. */
+  tone?: 'none' | 'rose' | 'green';
   ['as']?: HTMLTag;
 }
 
-const { id, isDark = false, containerClass = '', bg, as = 'section' } = Astro.props;
+const { id, isDark = false, containerClass = '', bg, as = 'section', tone = 'none' } = Astro.props;
+
+const tones = { none: '', rose: 'bg-rose-50/70', green: 'bg-green-50/70' };
 
 const WrapperTag = as;
 ---
@@ -20,7 +24,7 @@ const WrapperTag = as;
         bg ? (
           <Fragment set:html={bg} />
         ) : (
-          <div class:list={['absolute inset-0', { 'bg-dark dark:bg-transparent': isDark }]} />
+          <div class:list={['absolute inset-0', tones[tone], { 'bg-dark dark:bg-transparent': isDark }]} />
         )
       }
     </slot>

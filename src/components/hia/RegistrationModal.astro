@@ -3,7 +3,7 @@ import { Icon } from 'astro-icon/components';
 import { integrations, etransfer, pricing, program } from '~/data/program';
 
 const input =
-  'mt-1 block w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-default shadow-sm placeholder:text-gray-400 focus:border-primary focus:outline-none focus:ring-2 focus:ring-rose-200';
+  'mt-1 block w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-default shadow-sm placeholder:text-gray-400 focus:border-primary aria-[invalid=true]:border-red-700 aria-[invalid=true]:bg-red-50/40';
 const label = 'block text-sm font-semibold text-heading';
 ---
 
@@ -20,15 +20,14 @@ const label = 'block text-sm font-semibold text-heading';
           Register for Hearts in Action
         </h2>
         <p class="text-sm text-muted">
-          {program.sessions} weeks · {program.grades} · {pricing.total}
-          {pricing.currency} incl. HST
+          {program.sessions} weeks · {program.grades} · {pricing.total}{' '}{pricing.currency} incl. HST
         </p>
       </div>
       <button
         type="button"
         data-close-register
         aria-label="Close registration"
-        class="rounded-full p-2 text-muted transition hover:bg-gray-100 hover:text-heading focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+        class="rounded-full p-2 text-muted transition hover:bg-gray-100 hover:text-heading"
       >
         <Icon name="tabler:x" class="h-6 w-6" />
       </button>
@@ -38,6 +37,7 @@ const label = 'block text-sm font-semibold text-heading';
       <form
         id="register-form"
         class="space-y-8"
+        novalidate
         data-endpoint={integrations.formEndpoint}
         data-contact={program.contactEmail}
         data-amount={`${pricing.total} ${pricing.currency} (incl. HST)`}
@@ -56,25 +56,30 @@ const label = 'block text-sm font-semibold text-heading';
           </legend>
           <div>
             <label class={label} for="child_name">Child’s full name</label>
-            <input class={input} id="child_name" name="child_name" type="text" autocomplete="off" required />
+            <input
+              class={input}
+              id="child_name"
+              name="child_name"
+              type="text"
+              autocomplete="off"
+              data-error="Please enter your child’s full name."
+              required
+            />
           </div>
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
-              <label class={label} for="child_age">Age</label>
-              <input
-                class={input}
-                id="child_age"
-                name="child_age"
-                type="number"
-                min="4"
-                max="12"
-                inputmode="numeric"
-                required
-              />
+              <label class={label} for="child_age">Age <span class="font-normal text-muted">(optional)</span></label>
+              <input class={input} id="child_age" name="child_age" type="number" min="4" max="12" inputmode="numeric" />
             </div>
             <div>
               <label class={label} for="child_grade">Grade</label>
-              <select class={input} id="child_grade" name="child_grade" required>
+              <select
+                class={input}
+                id="child_grade"
+                name="child_grade"
+                data-error="Please choose your child’s grade."
+                required
+              >
                 <option value="" disabled selected>Select grade</option>
                 <option>Grade 1</option>
                 <option>Grade 2</option>
@@ -93,6 +98,7 @@ const label = 'block text-sm font-semibold text-heading';
               name="medical_notes"
               rows="3"
               placeholder="Allergies, medications, anything we should know to keep your child safe"
+              data-error="Please add any allergies or medical needs, or write “None”."
               required></textarea>
           </div>
         </fieldset>
@@ -104,26 +110,66 @@ const label = 'block text-sm font-semibold text-heading';
           </legend>
           <div>
             <label class={label} for="parent_name">Full name</label>
-            <input class={input} id="parent_name" name="parent_name" type="text" autocomplete="name" required />
+            <input
+              class={input}
+              id="parent_name"
+              name="parent_name"
+              type="text"
+              autocomplete="name"
+              data-error="Please enter your full name."
+              required
+            />
           </div>
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
               <label class={label} for="email">Email</label>
-              <input class={input} id="email" name="email" type="email" autocomplete="email" required />
+              <input
+                class={input}
+                id="email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                data-error="Please enter an email we can reach you at, like name@example.com."
+                required
+              />
             </div>
             <div>
               <label class={label} for="phone">Phone number</label>
-              <input class={input} id="phone" name="phone" type="tel" autocomplete="tel" required />
+              <input
+                class={input}
+                id="phone"
+                name="phone"
+                type="tel"
+                autocomplete="tel"
+                data-error="Please enter a phone number we can reach."
+                required
+              />
             </div>
           </div>
           <div class="grid gap-4 sm:grid-cols-2">
             <div>
               <label class={label} for="emergency_name">Emergency contact name</label>
-              <input class={input} id="emergency_name" name="emergency_contact_name" type="text" required />
+              <input
+                class={input}
+                id="emergency_name"
+                name="emergency_contact_name"
+                type="text"
+                autocomplete="off"
+                data-error="Please enter an emergency contact’s name."
+                required
+              />
             </div>
             <div>
               <label class={label} for="emergency_phone">Emergency contact phone</label>
-              <input class={input} id="emergency_phone" name="emergency_contact_phone" type="tel" required />
+              <input
+                class={input}
+                id="emergency_phone"
+                name="emergency_contact_phone"
+                type="tel"
+                autocomplete="off"
+                data-error="Please enter an emergency contact’s phone number."
+                required
+              />
             </div>
           </div>
         </fieldset>
@@ -135,7 +181,7 @@ const label = 'block text-sm font-semibold text-heading';
           </legend>
           <div class="grid gap-3 sm:grid-cols-2">
             <label
-              class="flex cursor-pointer gap-3 rounded-2xl border-2 border-gray-200 bg-white p-4 transition has-[:checked]:border-primary has-[:checked]:bg-rose-50/60 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-rose-300"
+              class="flex cursor-pointer gap-3 rounded-2xl border-2 border-gray-200 bg-white p-4 transition has-[:checked]:border-primary has-[:checked]:bg-rose-50/60 has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-secondary"
             >
               <input
                 type="radio"
@@ -156,7 +202,7 @@ const label = 'block text-sm font-semibold text-heading';
               </span>
             </label>
             <label
-              class="flex cursor-pointer gap-3 rounded-2xl border-2 border-gray-200 bg-white p-4 transition has-[:checked]:border-primary has-[:checked]:bg-rose-50/60 has-[:focus-visible]:ring-2 has-[:focus-visible]:ring-rose-300"
+              class="flex cursor-pointer gap-3 rounded-2xl border-2 border-gray-200 bg-white p-4 transition has-[:checked]:border-primary has-[:checked]:bg-rose-50/60 has-[:focus-visible]:outline has-[:focus-visible]:outline-[3px] has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-secondary"
             >
               <input
                 type="radio"
@@ -196,23 +242,14 @@ const label = 'block text-sm font-semibold text-heading';
               details:
             </p>
             <dl class="mt-3 grid gap-x-4 gap-y-1 rounded-xl bg-white/80 p-3 text-amber-950 sm:grid-cols-[auto_1fr]">
-              <dt class="font-semibold">Send to</dt>
-              <dd class="break-all">{etransfer.email}</dd>
               <dt class="font-semibold">Amount</dt>
               <dd>{etransfer.amount}</dd>
-              {
-                etransfer.securityQuestion && (
-                  <>
-                    <dt class="font-semibold">Security question</dt>
-                    <dd>{etransfer.securityQuestion}</dd>
-                    <dt class="font-semibold">Answer</dt>
-                    <dd>{etransfer.securityAnswer}</dd>
-                  </>
-                )
-              }
               <dt class="font-semibold">Message / note</dt>
               <dd>Your child’s full name + “Hearts in Action”</dd>
             </dl>
+            <p class="mt-2 text-amber-900/80">
+              The email address and security question appear on the next screen, right after you submit.
+            </p>
             <p class="mt-3 text-amber-900/80">
               Your spot is <strong>temporarily held</strong> until we verify your transfer, then we’ll email your confirmation.
               If we don’t receive it within {etransfer.holdHours} hours, the spot may be released.
@@ -222,16 +259,24 @@ const label = 'block text-sm font-semibold text-heading';
 
         <div class="space-y-4">
           <label class="flex items-start gap-3 text-sm">
-            <input type="checkbox" name="consent" value="Yes" required class="mt-1 h-4 w-4 flex-none accent-rose-600" />
+            <input
+              type="checkbox"
+              name="consent"
+              value="Yes"
+              required
+              data-error="Please tick the box to confirm before continuing."
+              class="mt-0.5 h-5 w-5 flex-none accent-rose-600"
+            />
             <span>
-              I’m this child’s parent or legal guardian, the information above is accurate, and I agree to the
-              <a href="/terms" target="_blank" class="font-semibold text-primary underline">program terms</a>
-              and
-              <a href="/privacy" target="_blank" class="font-semibold text-primary underline">privacy policy</a>.
+              I’m this child’s parent or legal guardian, the information above is accurate, and I agree to the{' '}
+              <a href="/terms" target="_blank" class="font-semibold text-secondary underline">program terms</a>{' '}and{
+                ' '
+              }
+              <a href="/privacy" target="_blank" class="font-semibold text-secondary underline">privacy policy</a>.
             </span>
           </label>
 
-          <p id="register-error" role="alert" hidden class="rounded-xl bg-red-50 p-3 text-sm font-medium text-red-800">
+          <p id="register-error" role="alert" hidden class="rounded-xl bg-red-50 p-3 text-sm font-medium text-red-900">
           </p>
 
           <button
@@ -239,10 +284,10 @@ const label = 'block text-sm font-semibold text-heading';
             id="register-submit"
             class="btn-primary w-full px-8 py-4 text-lg shadow-lg shadow-rose-500/25 disabled:cursor-wait disabled:opacity-70"
           >
-            <span data-submit-label>Continue to Secure Payment</span>
+            <span data-submit-label>Continue to payment</span>
             <Icon name="tabler:lock" class="ml-2 h-5 w-5" />
           </button>
-          <p class="text-center text-xs text-muted">
+          <p class="text-center text-sm text-muted">
             Your details are used only to run the program. Questions? {program.contactEmail}
           </p>
         </div>
@@ -253,10 +298,12 @@ const label = 'block text-sm font-semibold text-heading';
         <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-green-100 text-accent">
           <Icon name="tabler:circle-check-filled" class="h-10 w-10" />
         </span>
-        <h3 class="mt-4 font-heading text-2xl font-extrabold text-heading">Registration received!</h3>
+        <h3 tabindex="-1" data-success-heading class="mt-4 font-heading text-2xl font-extrabold text-heading">
+          One more step: complete your payment
+        </h3>
         <p class="mx-auto mt-2 max-w-md text-muted">
-          One last step — complete your payment to confirm your child’s spot instantly. We’re taking you to secure
-          checkout now.
+          We’ve saved your details. Your child’s spot is confirmed as soon as payment completes — it only takes a minute
+          through secure Stripe checkout.
         </p>
         <!-- STRIPE PAYMENT LINK URL — set `stripePaymentLink` in src/data/program.ts -->
         <a
@@ -275,7 +322,9 @@ const label = 'block text-sm font-semibold text-heading';
         <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-amber-100 text-amber-600">
           <Icon name="tabler:clock-check" class="h-10 w-10" />
         </span>
-        <h3 class="mt-4 font-heading text-2xl font-extrabold text-heading">Your spot is being held</h3>
+        <h3 tabindex="-1" data-success-heading class="mt-4 font-heading text-2xl font-extrabold text-heading">
+          Your spot is being held
+        </h3>
         <p class="mx-auto mt-2 max-w-md text-muted">Thank you! Next, please send your Interac e-Transfer:</p>
         <dl
           class="mx-auto mt-3 grid max-w-md gap-x-4 gap-y-1 rounded-xl border border-amber-200 bg-amber-50/80 p-4 text-left text-sm text-amber-950 sm:grid-cols-[auto_1fr]"
@@ -319,6 +368,10 @@ const label = 'block text-sm font-semibold text-heading';
     const successEt = document.getElementById('register-success-etransfer') as HTMLElement;
     const stripeLink = document.getElementById('stripe-link') as HTMLAnchorElement;
     const panels = dialog.querySelectorAll<HTMLElement>('[data-pay-panel]');
+    const fields = Array.from(form.querySelectorAll<HTMLInputElement>('[required][data-error]'));
+
+    let dirty = false;
+    let pressedOnBackdrop = false;
 
     const open = () => {
       if (!dialog.open) dialog.showModal();
@@ -342,9 +395,12 @@ const label = 'block text-sm font-semibold text-heading';
         open();
       } else if (target.closest('[data-close-register]')) {
         close();
-      } else if (target === dialog) {
-        close(); // click on the backdrop
+      } else if (target === dialog && pressedOnBackdrop && !dirty) {
+        close(); // click on the backdrop, but never while a half-finished form is open
       }
+    });
+    dialog.addEventListener('pointerdown', (e) => {
+      pressedOnBackdrop = e.target === dialog;
     });
     if (location.hash === '#register') open();
 
@@ -353,16 +409,78 @@ const label = 'block text-sm font-semibold text-heading';
     const syncPayment = () => {
       const method = paymentMethod();
       panels.forEach((p) => (p.hidden = p.dataset.payPanel !== method));
-      submitLabel.textContent = method === 'Credit Card' ? 'Continue to Secure Payment' : 'Reserve My Spot';
+      submitLabel.textContent = method === 'Credit Card' ? 'Continue to payment' : 'Reserve my spot';
     };
     form.addEventListener('change', (e) => {
-      if ((e.target as HTMLInputElement).name === 'payment_method') syncPayment();
+      if ((e.target as HTMLInputElement).name === 'payment_method') {
+        syncPayment();
+        errorBox.hidden = true;
+      }
     });
     syncPayment();
+
+    // Inline validation: one clear message per field, next to the field.
+    const errorFor = (field: HTMLInputElement) => {
+      const id = `${field.id || field.name}-error`;
+      let el = document.getElementById(id);
+      if (!el) {
+        el = document.createElement('p');
+        el.id = id;
+        el.hidden = true;
+        el.className = 'mt-1.5 text-sm font-medium text-red-800';
+        (field.type === 'checkbox' ? field.closest('label') : field)?.insertAdjacentElement('afterend', el);
+      }
+      return el;
+    };
+    const problem = (field: HTMLInputElement) => {
+      const message = field.dataset.error ?? '';
+      if (field.type === 'checkbox') return field.checked ? '' : message;
+      const value = field.value.trim();
+      if (!value) return message;
+      if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) return message;
+      if (field.type === 'tel' && value.replace(/\D/g, '').length < 7) return message;
+      return '';
+    };
+    const check = (field: HTMLInputElement) => {
+      const message = problem(field);
+      const el = errorFor(field);
+      el.textContent = message;
+      el.hidden = !message;
+      if (message) {
+        field.setAttribute('aria-invalid', 'true');
+        field.setAttribute('aria-describedby', el.id);
+      } else {
+        field.removeAttribute('aria-invalid');
+        field.removeAttribute('aria-describedby');
+      }
+      return !message;
+    };
+    form.addEventListener('input', (e) => {
+      dirty = true;
+      const field = e.target as HTMLInputElement;
+      if (field.getAttribute('aria-invalid') === 'true') check(field);
+      errorBox.hidden = true;
+    });
+    form.addEventListener('focusout', (e) => {
+      const field = e.target as HTMLInputElement;
+      if (fields.includes(field) && field.value !== '' && field.type !== 'checkbox') check(field);
+    });
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       errorBox.hidden = true;
+
+      const invalid = fields.filter((f) => !check(f));
+      if (invalid.length) {
+        errorBox.textContent =
+          invalid.length === 1
+            ? 'One thing needs your attention before we can continue. It is marked below.'
+            : `${invalid.length} things need your attention before we can continue. They are marked below.`;
+        errorBox.hidden = false;
+        invalid[0].focus();
+        return;
+      }
+
       submit.disabled = true;
       const original = submitLabel.textContent;
       submitLabel.textContent = 'Submitting…';
@@ -390,16 +508,17 @@ const label = 'block text-sm font-semibold text-heading';
         if (!res.ok || json.success === false) throw new Error(json.message || 'Submission failed');
 
         form.hidden = true;
+        dirty = false;
         dialog.querySelector('.overflow-y-auto')?.scrollTo({ top: 0 });
+        let panel = successEt;
         if (method === 'Credit Card') {
           const url = new URL(stripeLink.href, location.href);
           url.searchParams.set('prefilled_email', String(data.email));
           stripeLink.href = url.toString();
-          successCard.hidden = false;
-          setTimeout(() => location.assign(url.toString()), 1800);
-        } else {
-          successEt.hidden = false;
+          panel = successCard;
         }
+        panel.hidden = false;
+        panel.querySelector<HTMLElement>('[data-success-heading]')?.focus();
       } catch (err) {
         errorBox.textContent = `Sorry — we couldn’t submit your registration just now. Please try again, or email ${form.dataset.contact} and we’ll register you by hand.`;
         errorBox.hidden = false;

@@ -55,7 +55,7 @@
 }
 
 @utility btn {
-  @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 focus:ring-blue-500 focus:ring-offset-blue-200 focus:ring-2 focus:ring-offset-2 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
+  @apply inline-flex items-center justify-center rounded-full border-gray-400 border bg-transparent font-medium text-center text-base text-page leading-snug transition py-3.5 px-6 md:px-8 ease-in duration-200 hover:bg-gray-100 hover:border-gray-600 dark:text-slate-300 dark:border-slate-500 dark:hover:bg-slate-800 dark:hover:border-slate-800 cursor-pointer;
 }
 
 @utility btn-primary {
@@ -149,4 +149,36 @@
 .dark .astro-code span {
   color: var(--shiki-dark) !important;
   background-color: var(--shiki-dark-bg) !important;
+}
+
+/* Brand-coloured, always-visible keyboard focus (replaces browser defaults and the old blue ring). */
+:where(a, button, summary, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--aw-color-secondary);
+  outline-offset: 3px;
+  border-radius: 0.5rem;
+}
+/* Controls that sit on the saturated rose bands get a light ring instead. */
+.on-rose:focus-visible {
+  outline-color: #fff;
+}
+
+/* Calm, themed browser surfaces. */
+html {
+  scrollbar-color: rgb(253 164 175) transparent;
+  accent-color: var(--aw-color-primary);
+}
+:where(input, textarea) {
+  caret-color: var(--aw-color-primary);
+}
+
+/* Respect reduced-motion preferences everywhere: no transitions, no entrance animation, no smooth scroll. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }

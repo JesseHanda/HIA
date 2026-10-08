@@ -1,38 +1,140 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { program } from '~/data/program';
+import LegalDocument from '~/components/hia/LegalDocument.astro';
+import { program, legal, etransfer } from '~/data/program';
 
-const metadata = { title: 'Privacy Policy' };
+const metadata = {
+  title: 'Privacy Policy',
+  description: `How ${legal.entity} collects, uses, protects and shares personal information about families.`,
+};
+
+const email = `<a href="mailto:${program.contactEmail}">${program.contactEmail}</a>`;
+
+// DRAFT for legal review. Written to follow Canada's PIPEDA fair-information principles; values come from src/data/program.ts.
+const sections = [
+  {
+    title: 'Who we are',
+    body: `
+      <p>${legal.entity} is an ${program.sessions}-week character enrichment program for children in ${program.grades}, run in ${program.city} by ${legal.operator}. In this policy, “we”, “us” and “our” mean ${legal.entity}, and “you” means the parent or legal guardian who visits this website or registers a child.</p>
+      <p>This policy explains what personal information we collect, why we collect it, who we share it with, how long we keep it, and the choices you have. By submitting a registration you confirm that you have read it.</p>`,
+  },
+  {
+    title: 'Accountability and contact',
+    body: `
+      <p>${legal.operator} is responsible for personal information under our control and acts as our privacy contact. Questions, requests and complaints can be sent to ${email}, or by phone to ${program.contactPhone}.</p>`,
+  },
+  {
+    title: 'What we collect',
+    body: `
+      <p><strong>About your child</strong> (provided by you at registration):</p>
+      <ul>
+        <li>full name, grade and, if you choose to give it, age;</li>
+        <li>allergy, medical and other health or safety notes you tell us about.</li>
+      </ul>
+      <p><strong>About you and your emergency contact:</strong></p>
+      <ul>
+        <li>your name, email address and phone number;</li>
+        <li>the name and phone number of an emergency contact you nominate.</li>
+      </ul>
+      <p><strong>Payment details.</strong> Card payments are taken by Stripe, so we never see or store your card number. For Interac e-Transfer we see the sender’s name, email and the amount, as shown in the transfer notice from your bank.</p>
+      <p><strong>Technical data.</strong> Like most websites, our hosting provider automatically records basic request data such as IP address, browser type and the pages requested, for security and reliability.</p>
+      <p><strong>Your messages.</strong> If you email or call us, we keep what you send and our replies.</p>
+      <p>We ask for only what we need to run the program safely. We do not ask children to provide any information themselves.</p>`,
+  },
+  {
+    title: 'Why we collect it',
+    body: `
+      <p>We use personal information only for the following purposes:</p>
+      <ul>
+        <li>to process your registration, confirm your child’s spot and take payment;</li>
+        <li>to communicate with you about dates, sessions, drop-off and pick-up, and changes to the program;</li>
+        <li>to keep your child safe and well, including acting on allergy and medical information;</li>
+        <li>to contact you or your emergency contact if there is an illness, injury or other urgent matter;</li>
+        <li>to keep records of registrations and payments, and to meet legal, tax and accounting obligations;</li>
+        <li>to respond to your questions and requests, and to improve the program.</li>
+      </ul>
+      <p>We do not use your information for advertising, and we will not use it for a new purpose without telling you and, where required, asking for your consent first.</p>`,
+  },
+  {
+    title: 'Consent',
+    body: `
+      <p>By completing the registration form and ticking the consent box, you give your consent, as your child’s parent or legal guardian, to the collection, use and disclosure of the information described in this policy. This includes your child’s health information, which is sensitive and which we collect only so that we can care for your child during sessions.</p>
+      <p>You may withdraw your consent at any time, subject to legal or contractual restrictions, by contacting us at ${email}. Withdrawing consent may mean we can no longer offer your child a place in the program, because some information is essential to supervise children safely.</p>`,
+  },
+  {
+    title: 'Who we share it with',
+    body: `
+      <p>We do not sell, rent or trade personal information. We share it only as follows:</p>
+      <ul>
+        <li><strong>Service providers</strong> who help us operate the program, acting on our instructions: Web3Forms (delivers registration form submissions to us by email), Stripe (card payments), our email provider, and Cloudflare (website hosting and delivery).</li>
+        <li><strong>Emergency responders and medical professionals</strong>, if your child needs urgent care, limited to what is needed to help.</li>
+        <li><strong>Authorities and advisers</strong>, where required by law or a court order, or to protect the safety of a child, and to our professional advisers (such as accountants) under duties of confidentiality.</li>
+      </ul>
+      <p>We do not share one family’s information with another family.</p>`,
+  },
+  {
+    title: 'Where information is stored',
+    body: `
+      <p>Some of our service providers store or process information on servers outside Canada, including in the United States. When information is processed in another country, it may be accessible to courts, law enforcement and other authorities there under that country’s laws. We choose reputable providers and limit what we send them to what is needed.</p>`,
+  },
+  {
+    title: 'How long we keep it',
+    body: `
+      <ul>
+        <li><strong>Health, allergy and emergency-contact details</strong> are deleted or securely destroyed within ${legal.medicalRetentionMonths} months after the end of the program your child attended.</li>
+        <li><strong>Registration, payment and tax records</strong> are kept for as long as Canadian tax and accounting rules require, generally up to six years.</li>
+        <li><strong>Emails and other correspondence</strong> are kept only as long as they are useful for the purposes above, then deleted.</li>
+      </ul>
+      <p>When information is no longer needed, we delete it or make it anonymous.</p>`,
+  },
+  {
+    title: 'How we protect it',
+    body: `
+      <p>We use reasonable safeguards appropriate to how sensitive the information is. This website is delivered over an encrypted (HTTPS) connection. Registration details are sent directly to a private inbox, and access is limited to the people who need it to run the program. Health and emergency-contact details needed during sessions are kept with us at the session and not left unattended.</p>
+      <p>No method of transmission or storage is perfectly secure. If a breach creates a real risk of significant harm to you or your child, we will notify you and report it to the Privacy Commissioner of Canada as the law requires.</p>`,
+  },
+  {
+    title: 'Cookies, analytics and links',
+    body: `
+      <p>This website does not currently use advertising or tracking cookies, and we do not run third-party analytics. If that changes, we will update this policy first and, where required, ask for your consent.</p>
+      <p>Some links, such as map links, lead to other websites. Those sites have their own privacy practices, which we do not control. The Stripe checkout page, in particular, is governed by Stripe’s own privacy policy.</p>`,
+  },
+  {
+    title: 'Your rights',
+    body: `
+      <p>You can ask us, at any time, to:</p>
+      <ul>
+        <li>tell you what personal information we hold about you and your child, and how we have used and shared it;</li>
+        <li>correct information that is inaccurate or incomplete;</li>
+        <li>delete information we no longer need, or withdraw your consent as described above.</li>
+      </ul>
+      <p>Email ${email}. We may need to confirm who you are first, and we will respond within ${legal.responseDays} days. We will tell you if we cannot fulfil a request in full and explain why.</p>
+      <p>If you are not satisfied with our response, you may complain to the <a href="https://www.priv.gc.ca" target="_blank" rel="noopener noreferrer">Office of the Privacy Commissioner of Canada</a>.</p>`,
+  },
+  {
+    title: 'Children’s information',
+    body: `
+      <p>This website is written for parents and guardians, not for children. We collect information about a child only from that child’s parent or legal guardian, and only to run the program. If you believe a child has given us information directly, contact us and we will delete it.</p>`,
+  },
+  {
+    title: 'Changes to this policy',
+    body: `
+      <p>We may update this policy from time to time. The effective date at the top shows when it last changed. If we make a significant change, we will tell registered families by email and, where required, ask for fresh consent.</p>`,
+  },
+  {
+    title: 'Contact us',
+    body: `
+      <p>${legal.entity}<br />${program.city}<br />Email: ${email}<br />Phone: ${program.contactPhone}</p>
+      <p>Payments by e-Transfer are received at ${etransfer.email}; please send privacy requests to the address above rather than to the payment address.</p>`,
+  },
+];
 ---
 
-<!-- DRAFT — plain-language privacy summary. Have it reviewed before launch. -->
 <Layout metadata={metadata}>
-  <article class="prose prose-lg mx-auto max-w-3xl px-4 py-12 prose-headings:font-heading md:py-16">
-    <h1>Privacy Policy</h1>
-    <p><em>Hearts in Action — {program.city}</em></p>
-
-    <h2>What we collect</h2>
-    <p>
-      When you register we collect your child’s name, age, grade and any medical or allergy notes, plus your name,
-      email, phone number and an emergency contact.
-    </p>
-
-    <h2>How we use it</h2>
-    <p>
-      We use this information only to run the program: confirming your spot, keeping your child safe, contacting you
-      about sessions and reaching your emergency contact if needed. We never sell your information.
-    </p>
-
-    <h2>Who handles it</h2>
-    <p>
-      Registration details are delivered to us by our form provider (Web3Forms). Credit card payments are processed by
-      Stripe; we never see or store your card number.
-    </p>
-
-    <h2>Your choices</h2>
-    <p>
-      You can ask to see, correct or delete your information at any time by emailing
-      <a href={`mailto:${program.contactEmail}`}>{program.contactEmail}</a>.
-    </p>
-  </article>
+  <LegalDocument
+    title="Privacy Policy"
+    intro={`We ask for very little, use it only to run the program safely, and never sell it. This policy explains the details.`}
+    sections={sections}
+    related={{ text: 'Program Terms', href: '/terms' }}
+  />
 </Layout>

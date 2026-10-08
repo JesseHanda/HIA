@@ -1,0 +1,54 @@
+---
+// Mobile-only bottom bar: keeps "Register" one thumb-tap away once the hero button has scrolled out of view.
+// Hides again while another registration prompt (pricing, final CTA, footer) is on screen.
+import { Icon } from 'astro-icon/components';
+import { pricing, program } from '~/data/program';
+---
+
+<div
+  id="sticky-register"
+  inert
+  class="fixed inset-x-0 bottom-0 z-30 translate-y-full border-t border-rose-200 bg-[#fffbf7] px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))] pt-3 shadow-[0_-6px_20px_-8px_rgb(136_19_55/0.25)] motion-safe:transition-transform motion-safe:duration-300 md:hidden"
+>
+  <div class="mx-auto flex max-w-md items-center gap-3">
+    <p class="min-w-0 flex-1 leading-tight">
+      <span class="block font-heading text-lg font-bold text-heading">{pricing.total} {pricing.currency}</span>
+      <span class="block truncate text-xs text-muted"
+        >{program.sessions} weeks · max {program.maxGroupSize} children</span
+      >
+    </p>
+    <a href="#register" data-open-register class="btn-primary flex-none px-6 py-3">
+      Register
+      <Icon name="tabler:arrow-right" class="ml-1.5 h-5 w-5" />
+    </a>
+  </div>
+</div>
+
+<script>
+  const bar = document.getElementById('sticky-register');
+  const heroCta = document.querySelector('[data-hero-cta]');
+
+  if (bar && heroCta) {
+    const zones = Array.from(document.querySelectorAll('#pricing, #register, footer'));
+    const inView = new Set<Element>();
+    let heroGone = false;
+
+    const sync = () => {
+      const show = heroGone && inView.size === 0;
+      bar.classList.toggle('translate-y-full', !show);
+      bar.toggleAttribute('inert', !show);
+    };
+
+    new IntersectionObserver(([entry]) => {
+      // Gone only when it left through the top, not when it simply hasn't scrolled into view yet.
+      heroGone = !entry.isIntersecting && entry.boundingClientRect.top < 0;
+      sync();
+    }).observe(heroCta);
+
+    const zoneObserver = new IntersectionObserver((entries) => {
+      entries.forEach((e) => (e.isIntersecting ? inView.add(e.target) : inView.delete(e.target)));
+      sync();
+    });
+    zones.forEach((z) => zoneObserver.observe(z));
+  }
+</script>

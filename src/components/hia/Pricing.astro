@@ -6,17 +6,13 @@ import Button from '~/components/ui/Button.astro';
 import { pricing, program } from '~/data/program';
 ---
 
-<WidgetWrapper id="pricing" containerClass="max-w-5xl">
-  <Headline
-    tagline="Simple pricing"
-    title="One price. Everything included."
-    subtitle="No hidden fees, no extra supplies to buy."
-  />
+<WidgetWrapper id="pricing" containerClass="max-w-5xl" tone="green">
+  <Headline title="One price. Everything included." subtitle="No hidden fees, no extra supplies to buy." />
 
   <div
     class="grid overflow-hidden rounded-3xl border border-rose-200 bg-white shadow-xl shadow-rose-900/10 md:grid-cols-2"
   >
-    <div class="bg-gradient-to-br from-rose-600 to-rose-700 p-8 text-white md:p-10">
+    <div class="bg-gradient-to-br from-rose-700 to-rose-800 p-8 text-white md:p-10">
       <p class="text-sm font-bold uppercase tracking-wide text-rose-100">Hearts in Action · {program.grades}</p>
       <p class="mt-4 flex items-baseline gap-2">
         <span class="font-heading text-6xl font-extrabold">{pricing.base}</span>
@@ -31,7 +27,7 @@ import { pricing, program } from '~/data/program';
         text="Reserve My Child’s Spot"
         href="#register"
         icon="tabler:arrow-right"
-        class="mt-8 w-full border-white bg-white px-8 py-4 text-lg font-bold !text-rose-700 hover:!bg-rose-50"
+        class="on-rose mt-8 w-full border-white bg-white px-8 py-4 text-lg font-bold !text-rose-700 hover:!bg-rose-50"
         data-open-register
       />
       <p class="mt-3 text-center text-sm text-rose-100">Limited to {program.maxGroupSize} children per group</p>
@@ -50,20 +46,22 @@ import { pricing, program } from '~/data/program';
         }
       </ul>
 
-      <div class="mt-8 grid gap-3 sm:grid-cols-2">
-        <div class="rounded-2xl border border-gray-200 bg-gray-50/70 p-4">
-          <p class="flex items-center gap-2 font-semibold text-heading">
-            <Icon name="tabler:credit-card" class="h-5 w-5 text-primary" /> Credit card
-          </p>
-          <p class="mt-1 text-sm text-muted">Instant confirmation through secure Stripe checkout.</p>
+      <dl class="mt-8 space-y-3 border-t border-gray-200 pt-6 text-sm">
+        <div class="flex gap-3">
+          <Icon name="tabler:credit-card" class="mt-0.5 h-5 w-5 flex-none text-primary" />
+          <div>
+            <dt class="font-semibold text-heading">Credit card</dt>
+            <dd class="text-muted">Instant confirmation through secure Stripe checkout.</dd>
+          </div>
         </div>
-        <div class="rounded-2xl border border-gray-200 bg-gray-50/70 p-4">
-          <p class="flex items-center gap-2 font-semibold text-heading">
-            <Icon name="tabler:building-bank" class="h-5 w-5 text-primary" /> Interac e-Transfer
-          </p>
-          <p class="mt-1 text-sm text-muted">Spot held while we verify your transfer.</p>
+        <div class="flex gap-3">
+          <Icon name="tabler:building-bank" class="mt-0.5 h-5 w-5 flex-none text-primary" />
+          <div>
+            <dt class="font-semibold text-heading">Interac e-Transfer</dt>
+            <dd class="text-muted">Spot held while we verify your transfer.</dd>
+          </div>
         </div>
-      </div>
+      </dl>
     </div>
   </div>
 </WidgetWrapper>

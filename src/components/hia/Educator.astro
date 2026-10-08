@@ -2,7 +2,7 @@
 import { Icon } from 'astro-icon/components';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Headline from '~/components/ui/Headline.astro';
-import { program, safety } from '~/data/program';
+import { program, safety, educator } from '~/data/program';
 
 // EDIT: add a real photo — save it as /public/educator.jpg and set this to '/educator.jpg'.
 const photo = '';
@@ -45,30 +45,32 @@ const safetyItems = [
 
 <WidgetWrapper id="educator" containerClass="max-w-6xl">
   <Headline
-    tagline="Your child’s educator"
     title="Created and led by a trained Montessori educator"
     subtitle="A calm, respectful, hands-on approach to helping children grow in character."
   />
 
   <div class="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
-    <div class="rounded-3xl border border-rose-100 bg-white p-6 shadow-sm md:p-8">
+    <div class="rounded-3xl bg-white p-6 shadow-md shadow-rose-900/5 ring-1 ring-rose-100 md:p-8">
       <div class="flex items-center gap-5">
         {
           photo ? (
-            <img src={photo} alt="Rekha Mahbubani" class="h-24 w-24 flex-none rounded-full object-cover" />
+            <img src={photo} alt={educator.name} class="h-28 w-24 flex-none rounded-t-full object-cover" />
           ) : (
-            <div
-              class="flex h-24 w-24 flex-none items-center justify-center rounded-full bg-gradient-to-br from-rose-100 to-amber-100 font-heading text-3xl font-extrabold text-primary"
-              aria-hidden="true"
-            >
-              RM
+            <div class="flex-none text-center">
+              <div
+                class="flex h-28 w-24 items-end justify-center rounded-t-full bg-gradient-to-b from-rose-100 to-amber-50 pb-5 font-heading text-3xl font-extrabold text-secondary ring-1 ring-rose-200"
+                aria-hidden="true"
+              >
+                {educator.initials}
+              </div>
+              <p class="mt-1.5 text-xs text-muted">Photo coming soon</p>
             </div>
           )
         }
         <div>
-          <h3 class="font-heading text-2xl font-bold text-heading">Rekha Mahbubani</h3>
-          <p class="font-medium text-accent">AMS-Trained Montessori Educator</p>
-          <p class="text-sm text-muted">Character Enrichment Program Creator · {program.city}</p>
+          <h3 class="font-heading text-2xl font-bold text-heading">{educator.name}</h3>
+          <p class="font-medium text-accent">{educator.credential}</p>
+          <p class="text-sm text-muted">{educator.role} · {program.city}</p>
         </div>
       </div>
 
@@ -78,10 +80,9 @@ const safetyItems = [
           empathy and courage — not just talk about them. Her Montessori training shapes every session: children learn
           by doing, in a calm, respectful space where each voice matters.
         </p>
-        <blockquote
-          class="border-l-4 border-primary bg-rose-50/60 py-3 pl-4 pr-3 font-heading text-lg font-semibold italic text-heading"
-        >
-          “Kindness isn’t just something we teach. It’s something we instill.”
+        <blockquote class="rounded-2xl bg-rose-50 p-5 font-heading text-xl font-semibold leading-snug text-heading">
+          <Icon name="tabler:quote-filled" class="mb-2 h-6 w-6 text-rose-300" />
+          Kindness isn’t just something we teach. It’s something we instill.
         </blockquote>
       </div>
     </div>
@@ -91,13 +92,11 @@ const safetyItems = [
         <Icon name="tabler:shield-heart" class="h-6 w-6 text-primary" />
         Safety &amp; supervision
       </h3>
-      <ul class="grid gap-3 sm:grid-cols-2">
+      <ul class="divide-y divide-green-200/80 rounded-3xl bg-green-50 px-5 ring-1 ring-green-200 md:px-6">
         {
           safetyItems.map((s) => (
-            <li class="flex gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
-              <span class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-green-50 text-accent">
-                <Icon name={s.icon} class="h-5 w-5" />
-              </span>
+            <li class="flex gap-4 py-4">
+              <Icon name={s.icon} class="mt-0.5 h-6 w-6 flex-none text-accent" />
               <div>
                 <p class="font-semibold leading-snug text-heading">{s.title}</p>
                 <p class="mt-0.5 text-sm text-muted">{s.text}</p>

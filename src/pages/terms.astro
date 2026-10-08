@@ -1,45 +1,116 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
-import { program, pricing } from '~/data/program';
+import LegalDocument from '~/components/hia/LegalDocument.astro';
+import { program, pricing, legal, etransfer } from '~/data/program';
 
-const metadata = { title: 'Program Terms' };
+const metadata = {
+  title: 'Program Terms',
+  description: `The terms that apply when you register a child for ${legal.entity}: fees, cancellations, health and safety, and more.`,
+};
+
+const email = `<a href="mailto:${program.contactEmail}">${program.contactEmail}</a>`;
+
+// DRAFT for legal review. Business rules mirror the FAQ and src/data/program.ts; edit both together.
+const sections = [
+  {
+    title: 'About these terms',
+    body: `
+      <p>These terms govern your child’s participation in ${legal.entity} (the “program”), run in ${program.city} by ${legal.operator} (“we”, “us”). By registering a child and ticking the consent box, you agree to them. Please read them together with our <a href="/privacy">Privacy Policy</a>.</p>
+      <p>You confirm that you are the child’s parent or legal guardian, that you are at least 18 years old, and that you have authority to enrol the child and to agree to these terms on their behalf.</p>`,
+  },
+  {
+    title: 'The program',
+    body: `
+      <p>The program is a character enrichment program for children in ${program.grades}. It runs for ${program.sessions} weekly sessions of ${program.sessionLength} each, with up to ${program.maxGroupSize} children per group. Sessions use stories, conversation, hands-on activities and a group garden project to explore gratitude, kindness, empathy, friendship, respect, courage and helping others.</p>
+      <p>Dates, times and the venue are confirmed to registered families by email. We may adjust the schedule or venue where reasonably necessary and will give you as much notice as we can.</p>
+      <p>The program is educational enrichment. It is not counselling, therapy, childcare or medical advice, and it does not replace support from a qualified professional if your child needs it. We cannot promise any particular outcome for an individual child.</p>`,
+  },
+  {
+    title: 'Registration and fees',
+    body: `
+      <p>The fee is <strong>${pricing.base} plus HST per child</strong>, which is <strong>${pricing.total} ${pricing.currency}</strong> in total, for all ${program.sessions} sessions. It includes program materials, the weekly take-home keepsake or experience, your child’s part in the group garden and a certificate of completion.</p>
+      <p>Your spot is not reserved until you have submitted the registration form and either paid by credit card or, if you choose Interac e-Transfer, we have received your transfer.</p>
+      <ul>
+        <li><strong>Credit card:</strong> paid through Stripe’s secure checkout. Your spot is confirmed as soon as payment completes.</li>
+        <li><strong>Interac e-Transfer:</strong> sent to ${etransfer.email}. We hold your spot for ${etransfer.holdHours} hours while we verify the transfer, and confirm by email once it arrives. If we do not receive it within that time, the spot may be released to another family.</li>
+      </ul>
+      <p>You agree to give accurate information and to tell us promptly if it changes. Group sizes are limited, so places are offered in the order registrations are completed.</p>`,
+  },
+  {
+    title: 'Cancellations and refunds',
+    body: `
+      <p><strong>Before the first session</strong> you may cancel and we will refund your payment in full.</p>
+      <p><strong>After the program has begun</strong>, refunds are at our discretion because your child’s place and materials are committed. Please contact us at ${email} if something has changed, and we will do our best to work with you.</p>
+      <p><strong>If we cancel or cannot deliver a session,</strong> we will reschedule it. If we cannot, we will refund the fee for the sessions not delivered, calculated in equal shares across the ${program.sessions} sessions.</p>
+      <p>Approved refunds are returned to the original payment method, or by Interac e-Transfer if that is how you paid, within a reasonable time.</p>`,
+  },
+  {
+    title: 'Missed sessions',
+    body: `
+      <p>If your child is unwell or otherwise misses a session, please let us know. We will send home that week’s take-home card and Hearts in Action Challenge so your child can stay connected to the group. We cannot guarantee make-up sessions.</p>`,
+  },
+  {
+    title: 'Health, safety and supervision',
+    body: `
+      <ul>
+        <li><strong>Health information.</strong> You must tell us about any allergies, medical conditions, medication or other needs at registration, and keep that information up to date. We keep it, with your emergency contact, with us at every session.</li>
+        <li><strong>Illness.</strong> Please keep your child at home if they are unwell, including with a fever, vomiting or any contagious illness.</li>
+        <li><strong>Drop-off and pick-up.</strong> ${program.dropOff} Please do not send anyone to collect your child whom we have not been told about in advance.</li>
+        <li><strong>Emergencies.</strong> If your child is injured or becomes seriously ill, we will contact you and your emergency contact straight away. You authorize us to call 911 or seek urgent medical care for your child if we cannot reach you in time. You remain responsible for any resulting medical or ambulance costs.</li>
+        <li><strong>Small groups.</strong> We keep groups to ${program.maxGroupSize} children or fewer so that every child can be seen, heard and supported.</li>
+      </ul>`,
+  },
+  {
+    title: 'Behaviour and participation',
+    body: `
+      <p>We aim for a calm, respectful space where every child belongs. We will work with you and your child first if a child finds it hard to take part safely or respectfully. If behaviour continues to put the safety or wellbeing of the child or others at risk, we may ask you to collect your child early or, as a last resort, to withdraw from the program. Where we do, we will discuss a fair refund for sessions not attended.</p>`,
+  },
+  {
+    title: 'Photos and media',
+    body: `
+      <p>We will not take, use or share photos, video or recordings that identify a child without the permission of that child’s parent or guardian. Where you give permission, you may withdraw it at any time by emailing ${email}, and we will stop using the material going forward.</p>`,
+  },
+  {
+    title: 'Risk and liability',
+    body: `
+      <p>Children’s activities carry some ordinary risk, such as minor bumps and scrapes from craft work and moving around a room. We take reasonable care to supervise children and keep the space and materials safe, and you agree to follow our health and safety instructions.</p>
+      <p>To the fullest extent permitted by law, we are not liable for loss or damage that is not caused by our negligence or breach of these terms, or for indirect or consequential losses. Nothing in these terms excludes or limits liability that cannot lawfully be excluded or limited, or any rights you have under Ontario consumer protection law.</p>`,
+  },
+  {
+    title: 'Program materials and this website',
+    body: `
+      <p>The program content, curriculum, illustrations, text and design on this website and in session materials belong to ${legal.operator} or are used with permission. You may use take-home materials with your family, but you may not copy, sell or distribute the program materials without our written permission.</p>
+      <p>We work to keep this website accurate, but we may change or correct it at any time, and dates, availability and details here do not form a binding offer until confirmed in your registration.</p>`,
+  },
+  {
+    title: 'Privacy',
+    body: `
+      <p>How we collect, use and protect your family’s information is explained in our <a href="/privacy">Privacy Policy</a>, which forms part of these terms.</p>`,
+  },
+  {
+    title: 'Governing law and disputes',
+    body: `
+      <p>These terms are governed by the laws of the Province of Ontario and the federal laws of Canada that apply there. If a disagreement arises, please contact us first so we can try to resolve it directly and fairly. Any dispute we cannot resolve will be decided by the courts of Ontario.</p>
+      <p>If any part of these terms is found to be unenforceable, the rest remain in effect.</p>`,
+  },
+  {
+    title: 'Changes to these terms',
+    body: `
+      <p>We may update these terms from time to time. The terms in force when you register apply to your child’s participation in that program. The effective date at the top shows the current version.</p>`,
+  },
+  {
+    title: 'Contact us',
+    body: `
+      <p>${legal.entity}<br />${program.city}<br />Email: ${email}<br />Phone: ${program.contactPhone}</p>`,
+  },
+];
 ---
 
-<!--
-  DRAFT — plain-language program terms. Have them reviewed (and edit the refund / sickness wording to match
-  your real policy) before launch.
--->
 <Layout metadata={metadata}>
-  <article class="prose prose-lg mx-auto max-w-3xl px-4 py-12 prose-headings:font-heading md:py-16">
-    <h1>Program Terms</h1>
-    <p><em>Hearts in Action — {program.city}</em></p>
-
-    <h2>Registration &amp; payment</h2>
-    <p>
-      The program fee is {pricing.base} + HST per child ({pricing.total}
-      {pricing.currency} total) for {program.sessions}
-      weekly {program.sessionLength} sessions. Payment by credit card confirms a spot instantly. Spots paid by Interac e-Transfer
-      are held temporarily and confirmed once we verify the transfer.
-    </p>
-
-    <h2>Cancellations &amp; refunds</h2>
-    <p>
-      Cancellations before the first session receive a full refund. After the program has begun, please contact us and
-      we will do our best to work with you.
-    </p>
-
-    <h2>Health &amp; safety</h2>
-    <p>
-      Please keep children home when unwell and tell us about any allergies or medical needs at registration. We keep
-      emergency contact details with us at every session.
-    </p>
-
-    <h2>Photos</h2>
-    <p>We will not share photos or videos of children without a parent or guardian’s permission.</p>
-
-    <h2>Questions</h2>
-    <p>
-      Email <a href={`mailto:${program.contactEmail}`}>{program.contactEmail}</a> or call {program.contactPhone}.
-    </p>
-  </article>
+  <LegalDocument
+    title="Program Terms"
+    intro={`Plain, fair terms for families: what you pay, how cancellations work, and how we look after your child.`}
+    sections={sections}
+    related={{ text: 'Privacy Policy', href: '/privacy' }}
+  />
 </Layout>
