@@ -1,7 +1,7 @@
 site:
   name: Hearts in Action
-  # TODO: replace with your Cloudflare Pages URL or custom domain
-  site: 'https://heartsinaction.pages.dev'
+  # Update to your custom domain when you add one
+  site: 'https://hia-two.vercel.app'
   base: '/'
   trailingSlash: false
 

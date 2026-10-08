@@ -11,8 +11,8 @@ export const integrations = {
   // <!-- VIDEO / YOUTUBE EMBED URL -->  EDIT: e.g. 'https://www.youtube.com/embed/VIDEO_ID'. Leave '' to show the placeholder.
   videoEmbedUrl: '',
 
-  // <!-- WEB3FORMS ACCESS KEY -->  EDIT: free key from https://web3forms.com (delivered to the inbox you choose)
-  web3formsAccessKey: 'YOUR_WEB3FORMS_ACCESS_KEY',
+  // <!-- WEB3FORMS ACCESS KEY -->  Public by design (safe in browser code). Delivers to the inbox you chose at web3forms.com
+  web3formsAccessKey: '37b183f3-e17c-4781-bad0-a19063b3b758',
   // Formspree alternative: set to 'https://formspree.io/f/yourFormId' (the access key is then ignored).
   formEndpoint: 'https://api.web3forms.com/submit',
 };
