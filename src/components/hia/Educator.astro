@@ -1,0 +1,111 @@
+---
+import { Icon } from 'astro-icon/components';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { program, safety } from '~/data/program';
+
+// EDIT: add a real photo — save it as /public/educator.jpg and set this to '/educator.jpg'.
+const photo = '';
+
+const safetyItems = [
+  {
+    icon: 'tabler:users-group',
+    title: `Small groups of ${program.maxGroupSize} or fewer`,
+    text: 'Every child is seen, heard and included.',
+  },
+  {
+    icon: 'tabler:first-aid-kit',
+    title: 'Allergy & medical notes on hand',
+    text: 'Collected at registration and kept with us at every session.',
+  },
+  {
+    icon: 'tabler:phone-call',
+    title: 'Emergency contact on file',
+    text: 'We can reach you right away if anything comes up.',
+  },
+  {
+    icon: 'tabler:door-enter',
+    title: 'Clear drop-off & pick-up',
+    text: 'You’ll receive simple, written instructions before the first session.',
+  },
+  ...(safety.backgroundChecked
+    ? [
+        {
+          icon: 'tabler:shield-check',
+          title: 'Background-checked facilitator',
+          text: 'Your child is in safe, vetted hands.',
+        },
+      ]
+    : []),
+  ...(safety.firstAidCertified
+    ? [{ icon: 'tabler:heartbeat', title: 'First-aid certified', text: 'Prepared for the unexpected.' }]
+    : []),
+];
+---
+
+<WidgetWrapper id="educator" containerClass="max-w-6xl">
+  <Headline
+    tagline="Your child’s educator"
+    title="Created and led by a trained Montessori educator"
+    subtitle="A calm, respectful, hands-on approach to helping children grow in character."
+  />
+
+  <div class="grid gap-8 lg:grid-cols-[1fr_1.1fr] lg:gap-12">
+    <div class="rounded-3xl border border-rose-100 bg-white p-6 shadow-sm md:p-8">
+      <div class="flex items-center gap-5">
+        {
+          photo ? (
+            <img src={photo} alt="Rekha Mahbubani" class="h-24 w-24 flex-none rounded-full object-cover" />
+          ) : (
+            <div
+              class="flex h-24 w-24 flex-none items-center justify-center rounded-full bg-gradient-to-br from-rose-100 to-amber-100 font-heading text-3xl font-extrabold text-primary"
+              aria-hidden="true"
+            >
+              RM
+            </div>
+          )
+        }
+        <div>
+          <h3 class="font-heading text-2xl font-bold text-heading">Rekha Mahbubani</h3>
+          <p class="font-medium text-accent">AMS-Trained Montessori Educator</p>
+          <p class="text-sm text-muted">Character Enrichment Program Creator · {program.city}</p>
+        </div>
+      </div>
+
+      <div class="mt-6 space-y-4 text-default">
+        <p>
+          Rekha created Hearts in Action to give children meaningful opportunities to practise gratitude, kindness,
+          empathy and courage — not just talk about them. Her Montessori training shapes every session: children learn
+          by doing, in a calm, respectful space where each voice matters.
+        </p>
+        <blockquote
+          class="border-l-4 border-primary bg-rose-50/60 py-3 pl-4 pr-3 font-heading text-lg font-semibold italic text-heading"
+        >
+          “Kindness isn’t just something we teach. It’s something we instill.”
+        </blockquote>
+      </div>
+    </div>
+
+    <div>
+      <h3 class="mb-4 flex items-center gap-2 font-heading text-xl font-bold text-heading">
+        <Icon name="tabler:shield-heart" class="h-6 w-6 text-primary" />
+        Safety &amp; supervision
+      </h3>
+      <ul class="grid gap-3 sm:grid-cols-2">
+        {
+          safetyItems.map((s) => (
+            <li class="flex gap-3 rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+              <span class="flex h-10 w-10 flex-none items-center justify-center rounded-xl bg-green-50 text-accent">
+                <Icon name={s.icon} class="h-5 w-5" />
+              </span>
+              <div>
+                <p class="font-semibold leading-snug text-heading">{s.title}</p>
+                <p class="mt-0.5 text-sm text-muted">{s.text}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</WidgetWrapper>

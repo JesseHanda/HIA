@@ -1,0 +1,8 @@
+// Cloudflare config. For Cloudflare Pages: build command `npm run build`, output directory `dist`.
+// Docs: https://developers.cloudflare.com/pages/framework-guides/deploy-an-astro-site/
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "hearts-in-action",
+  "compatibility_date": "2026-09-01",
+  "pages_build_output_dir": "./dist",
+}

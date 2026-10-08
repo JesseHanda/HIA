@@ -1,0 +1,50 @@
+---
+import { Icon } from 'astro-icon/components';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { gallery } from '~/data/program';
+
+const tones: Record<string, { bg: string; icon: string }> = {
+  rose: { bg: 'from-rose-100 to-rose-50', icon: 'text-rose-500' },
+  green: { bg: 'from-green-100 to-emerald-50', icon: 'text-green-600' },
+  amber: { bg: 'from-amber-100 to-orange-50', icon: 'text-amber-600' },
+  sky: { bg: 'from-sky-100 to-indigo-50', icon: 'text-sky-600' },
+};
+---
+
+<!--
+  GALLERY — replace the illustrated placeholders with real photos:
+  put images in /public/gallery/ and set `src` on the matching entry in src/data/program.ts.
+-->
+<WidgetWrapper id="gallery" containerClass="max-w-6xl">
+  <Headline
+    tagline="A peek inside"
+    title="Hands-on, joyful and unforgettable"
+    subtitle="Children learn by doing — planting, creating, talking and building a garden together."
+  />
+
+  <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      gallery.map((g) => {
+        const tone = tones[g.tone] ?? tones.rose;
+        return (
+          <li class="group overflow-hidden rounded-3xl border border-gray-200/80 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+            <div class={`relative aspect-[4/3] overflow-hidden bg-gradient-to-br ${tone.bg}`}>
+              {g.src ? (
+                <img src={g.src} alt={g.alt ?? g.title} loading="lazy" class="h-full w-full object-cover" />
+              ) : (
+                <div class="flex h-full w-full items-center justify-center" aria-hidden="true">
+                  <Icon name={g.icon} class={`h-20 w-20 transition duration-300 group-hover:scale-110 ${tone.icon}`} />
+                </div>
+              )}
+            </div>
+            <div class="p-5">
+              <h3 class="font-heading text-lg font-bold text-heading">{g.title}</h3>
+              <p class="mt-1 text-sm text-muted">{g.caption}</p>
+            </div>
+          </li>
+        );
+      })
+    }
+  </ul>
+</WidgetWrapper>

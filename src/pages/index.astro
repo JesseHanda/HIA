@@ -1,0 +1,45 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import Hero from '~/components/hia/Hero.astro';
+import Outcomes from '~/components/hia/Outcomes.astro';
+import Gallery from '~/components/hia/Gallery.astro';
+import Curriculum from '~/components/hia/Curriculum.astro';
+import Logistics from '~/components/hia/Logistics.astro';
+import Educator from '~/components/hia/Educator.astro';
+import Faq from '~/components/hia/Faq.astro';
+import Pricing from '~/components/hia/Pricing.astro';
+import FinalCta from '~/components/hia/FinalCta.astro';
+import RegistrationModal from '~/components/hia/RegistrationModal.astro';
+import { program, pricing } from '~/data/program';
+
+const metadata = {
+  title: 'Hearts in Action — 8-Week Character Program for Grades 1–3 in Burlington, Ontario',
+  ignoreTitleTemplate: true,
+  description: `An ${program.sessions}-week character enrichment program for ${program.grades} in ${program.city}. Small groups of up to ${program.maxGroupSize} explore gratitude, kindness, empathy and courage through stories, hands-on activities and a growing garden. ${pricing.base} + HST.`,
+};
+
+const structuredData = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'Hearts in Action — Character Enrichment Program',
+  description: metadata.description,
+  provider: { '@type': 'Person', name: 'Rekha Mahbubani' },
+  educationalLevel: program.grades,
+  offers: { '@type': 'Offer', price: '224.87', priceCurrency: 'CAD', category: 'Paid' },
+};
+---
+
+<Layout metadata={metadata}>
+  <script slot="head" type="application/ld+json" set:html={JSON.stringify(structuredData)} is:inline />
+
+  <Hero />
+  <Outcomes />
+  <Gallery />
+  <Curriculum />
+  <Logistics />
+  <Educator />
+  <Pricing />
+  <Faq />
+  <FinalCta />
+  <RegistrationModal />
+</Layout>

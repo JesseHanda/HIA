@@ -1,0 +1,45 @@
+---
+import Layout from '~/layouts/PageLayout.astro';
+import { program, pricing } from '~/data/program';
+
+const metadata = { title: 'Program Terms' };
+---
+
+<!--
+  DRAFT — plain-language program terms. Have them reviewed (and edit the refund / sickness wording to match
+  your real policy) before launch.
+-->
+<Layout metadata={metadata}>
+  <article class="prose prose-lg mx-auto max-w-3xl px-4 py-12 prose-headings:font-heading md:py-16">
+    <h1>Program Terms</h1>
+    <p><em>Hearts in Action — {program.city}</em></p>
+
+    <h2>Registration &amp; payment</h2>
+    <p>
+      The program fee is {pricing.base} + HST per child ({pricing.total}
+      {pricing.currency} total) for {program.sessions}
+      weekly {program.sessionLength} sessions. Payment by credit card confirms a spot instantly. Spots paid by Interac e-Transfer
+      are held temporarily and confirmed once we verify the transfer.
+    </p>
+
+    <h2>Cancellations &amp; refunds</h2>
+    <p>
+      Cancellations before the first session receive a full refund. After the program has begun, please contact us and
+      we will do our best to work with you.
+    </p>
+
+    <h2>Health &amp; safety</h2>
+    <p>
+      Please keep children home when unwell and tell us about any allergies or medical needs at registration. We keep
+      emergency contact details with us at every session.
+    </p>
+
+    <h2>Photos</h2>
+    <p>We will not share photos or videos of children without a parent or guardian’s permission.</p>
+
+    <h2>Questions</h2>
+    <p>
+      Email <a href={`mailto:${program.contactEmail}`}>{program.contactEmail}</a> or call {program.contactPhone}.
+    </p>
+  </article>
+</Layout>

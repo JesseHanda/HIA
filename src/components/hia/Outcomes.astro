@@ -1,0 +1,58 @@
+---
+import { Icon } from 'astro-icon/components';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+
+const steps = [
+  { word: 'Notice', text: 'what is happening around them', icon: 'tabler:eye' },
+  { word: 'Reflect', text: 'on how others may feel', icon: 'tabler:bulb' },
+  { word: 'Choose', text: 'how they want to respond', icon: 'tabler:route' },
+  { word: 'Act', text: 'in a positive, meaningful way', icon: 'tabler:heart-handshake' },
+  { word: 'Grow', text: 'by practising every day', icon: 'tabler:seeding' },
+];
+
+const outcomes = [
+  'Notices the good — and the people who make their day brighter',
+  'Pauses to ask, “How might someone else feel?”',
+  'Finds the courage to take the next brave step',
+  'Chooses kind words and kind actions — even when it’s hard',
+  'Comes home with real keepsakes and a challenge to try with family',
+];
+---
+
+<WidgetWrapper id="outcomes" containerClass="max-w-6xl">
+  <Headline
+    tagline="What changes at home"
+    title="Character isn’t just taught here — it’s practised."
+    subtitle="Every session is built around one simple rhythm, so kind thinking becomes a kind habit."
+  />
+
+  <ol class="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+    {
+      steps.map((s, i) => (
+        <li class="relative rounded-2xl border border-rose-100 bg-white p-5 text-center shadow-sm">
+          <span class="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-rose-50 text-primary">
+            <Icon name={s.icon} class="h-6 w-6" />
+          </span>
+          <p class="font-heading text-xl font-bold uppercase tracking-wide text-heading">{s.word}</p>
+          <p class="mt-1 text-sm text-muted">{s.text}</p>
+          <span class="absolute right-3 top-3 text-xs font-bold text-rose-300">{i + 1}</span>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="mt-10 rounded-3xl border border-green-200 bg-green-50/70 p-6 md:p-8">
+    <h3 class="font-heading text-xl font-bold text-heading md:text-2xl">Over eight weeks, your child…</h3>
+    <ul class="mt-4 grid gap-3 md:grid-cols-2">
+      {
+        outcomes.map((o) => (
+          <li class="flex items-start gap-3 text-default">
+            <Icon name="tabler:circle-check-filled" class="mt-0.5 h-5 w-5 flex-none text-accent" />
+            <span>{o}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</WidgetWrapper>

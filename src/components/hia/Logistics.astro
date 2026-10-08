@@ -1,0 +1,84 @@
+---
+import { Icon } from 'astro-icon/components';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+import { program } from '~/data/program';
+
+const items = [
+  {
+    icon: 'tabler:calendar-event',
+    label: 'Dates',
+    value: program.startDate,
+    sub: `${program.sessions} weekly sessions`,
+  },
+  { icon: 'tabler:clock', label: 'Daily schedule', value: program.schedule, sub: `${program.sessions} weeks in total` },
+  {
+    icon: 'tabler:map-pin',
+    label: 'Location',
+    value: program.city,
+    sub: program.venue,
+    href: program.mapUrl,
+    linkText: 'Open in Maps',
+  },
+  { icon: 'tabler:school', label: 'Recommended for', value: program.grades, sub: 'No experience needed' },
+  {
+    icon: 'tabler:users-group',
+    label: 'Group size',
+    value: `Max ${program.maxGroupSize} children`,
+    sub: 'Every child seen and heard',
+  },
+  {
+    icon: 'tabler:backpack',
+    label: 'What to bring',
+    value: 'Just your child!',
+    sub: 'All materials included. Comfy clothes that can get a little messy.',
+  },
+];
+---
+
+<WidgetWrapper id="details" containerClass="max-w-6xl">
+  <Headline
+    tagline="The details"
+    title="Everything you need to plan"
+    subtitle="Clear, simple logistics so you can sign up with confidence."
+  />
+
+  <div class="overflow-hidden rounded-3xl border border-gray-200 bg-white shadow-lg shadow-rose-900/5">
+    <dl class="grid divide-y divide-gray-100 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-3">
+      {
+        items.map((it) => (
+          <div class="flex gap-4 p-6 sm:border-b sm:border-r sm:border-gray-100">
+            <span class="flex h-12 w-12 flex-none items-center justify-center rounded-2xl bg-rose-50 text-primary">
+              <Icon name={it.icon} class="h-6 w-6" />
+            </span>
+            <div class="min-w-0">
+              <dt class="text-xs font-bold uppercase tracking-wide text-muted">{it.label}</dt>
+              <dd class="mt-0.5 font-heading text-lg font-bold leading-snug text-heading">{it.value}</dd>
+              <dd class="mt-0.5 text-sm text-muted">{it.sub}</dd>
+              {it.href && (
+                <a
+                  href={it.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="mt-1 inline-flex items-center gap-1 text-sm font-semibold text-primary hover:underline"
+                >
+                  {it.linkText}
+                  <Icon name="tabler:external-link" class="h-3.5 w-3.5" />
+                </a>
+              )}
+            </div>
+          </div>
+        ))
+      }
+    </dl>
+    <div class="flex flex-col gap-3 bg-amber-50/70 p-6 sm:flex-row sm:items-center">
+      <span class="flex h-10 w-10 flex-none items-center justify-center rounded-full bg-white text-amber-600 shadow-sm">
+        <Icon name="tabler:car" class="h-5 w-5" />
+      </span>
+      <p class="text-sm text-default">
+        <strong class="text-heading">Drop-off &amp; pick-up:</strong>
+        {program.dropOff}
+      </p>
+    </div>
+  </div>
+</WidgetWrapper>

@@ -1,0 +1,62 @@
+---
+import { Icon } from 'astro-icon/components';
+import { integrations } from '~/data/program';
+
+const { videoEmbedUrl } = integrations;
+// Keep only the YouTube / Vimeo embed hosts so a bad paste can never inject an arbitrary iframe.
+const safeUrl = /^https:\/\/(www\.youtube(-nocookie)?\.com\/embed\/|player\.vimeo\.com\/video\/)/.test(videoEmbedUrl)
+  ? videoEmbedUrl
+  : '';
+---
+
+<!-- VIDEO / YOUTUBE EMBED URL — set `videoEmbedUrl` in src/data/program.ts (e.g. https://www.youtube.com/embed/VIDEO_ID) -->
+<div
+  class="relative aspect-video w-full overflow-hidden rounded-3xl bg-gradient-to-br from-rose-100 via-amber-50 to-green-100 shadow-2xl shadow-rose-900/10 ring-1 ring-rose-900/10"
+  data-video-showcase
+  data-embed-url={safeUrl}
+>
+  <div class="absolute inset-0 flex flex-col items-center justify-center gap-3 p-6 text-center" data-video-poster>
+    <div class="absolute -left-6 -top-6 h-32 w-32 rounded-full bg-rose-200/60 blur-2xl" aria-hidden="true"></div>
+    <div class="absolute -bottom-8 -right-6 h-40 w-40 rounded-full bg-green-200/70 blur-2xl" aria-hidden="true"></div>
+    {
+      safeUrl ? (
+        <button
+          type="button"
+          class="relative flex h-20 w-20 items-center justify-center rounded-full bg-primary text-white shadow-xl transition hover:scale-105 hover:bg-secondary focus-visible:outline-none focus-visible:ring-4 focus-visible:ring-rose-300"
+          aria-label="Play program preview video"
+          data-video-play
+        >
+          <Icon name="tabler:player-play-filled" class="ml-1 h-9 w-9" />
+        </button>
+      ) : (
+        <div class="relative flex h-20 w-20 items-center justify-center rounded-full bg-white/80 text-primary shadow-lg">
+          <Icon name="tabler:player-play-filled" class="ml-1 h-9 w-9" />
+        </div>
+      )
+    }
+    <p class="relative font-heading text-xl font-bold text-heading md:text-2xl">See Hearts in Action in motion</p>
+    <p class="relative text-sm text-muted">
+      {safeUrl ? 'Watch a 1-minute preview of the program' : 'Program preview video coming soon'}
+    </p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-video-showcase]').forEach((box) => {
+    const url = box.dataset.embedUrl;
+    const play = box.querySelector<HTMLElement>('[data-video-play]');
+    if (!url || !play) return;
+    play.addEventListener('click', () => {
+      const frame = document.createElement('iframe');
+      const src = new URL(url);
+      src.searchParams.set('autoplay', '1');
+      src.searchParams.set('rel', '0');
+      frame.src = src.toString();
+      frame.title = 'Hearts in Action program preview';
+      frame.allow = 'accelerometer; autoplay; encrypted-media; picture-in-picture; fullscreen';
+      frame.allowFullscreen = true;
+      frame.className = 'absolute inset-0 h-full w-full border-0';
+      box.replaceChildren(frame);
+    });
+  });
+</script>
