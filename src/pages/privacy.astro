@@ -18,7 +18,7 @@ const contactLines = [
   .filter(Boolean)
   .join('<br />');
 const contactBlock = `<p>${legal.entity}<br />${program.city}${contactLines ? '<br />' + contactLines : ''}</p>${
-  program.contactEmail ? '' : '<p>Please send privacy requests through ' + email + '.</p>'
+  program.contactEmail ? '' : '<p>Please contact us through ' + email + '.</p>'
 }`;
 
 // DRAFT for legal review. Written to follow Canada's PIPEDA fair-information principles; values come from src/data/program.ts.
@@ -26,8 +26,8 @@ const sections = [
   {
     title: 'Who we are',
     body: `
-      <p>${legal.entity} is an ${program.sessions}-week character enrichment program for children in ${program.grades}, run in ${program.city} by ${legal.operator}. In this policy, “we”, “us” and “our” mean ${legal.entity}, and “you” means the parent or legal guardian who visits this website, sends an enquiry or enrols a child.</p>
-      <p>This policy explains what personal information we collect, why we collect it, who we share it with, how long we keep it, and the choices you have. By submitting an enquiry or enrolling a child you confirm that you have read it.</p>`,
+      <p>${legal.entity} is an ${program.sessions}-week character enrichment program for children in ${program.grades}, run in ${program.city} by ${legal.operator}. In this policy, “we”, “us” and “our” mean ${legal.entity}, and “you” means the parent or legal guardian who visits this website or registers a child.</p>
+      <p>This policy explains what personal information we collect, why we collect it, who we share it with, how long we keep it, and the choices you have. By submitting an enquiry or registration you confirm that you have read it.</p>`,
   },
   {
     title: 'Accountability and contact',
@@ -38,7 +38,7 @@ const sections = [
     title: 'What we collect',
     body: `
       <p><strong>When you send an enquiry:</strong> your name, email address, phone number and school or organization (if you give them), and the message you write.</p>
-      <p><strong>About your child</strong> (provided by you when you enrol them):</p>
+      <p><strong>About your child</strong> (provided by you at registration):</p>
       <ul>
         <li>full name, grade and, if you choose to give it, age;</li>
         <li>allergy, medical and other health or safety notes you tell us about.</li>
@@ -48,6 +48,7 @@ const sections = [
         <li>your name, email address and phone number;</li>
         <li>the name and phone number of an emergency contact you nominate.</li>
       </ul>
+      <p><strong>Payment details.</strong> Card payments are taken by Stripe, so we never see or store your card number. For Interac e-Transfer we see the sender’s name, email and the amount, as shown in the transfer notice from your bank.</p>
       <p><strong>Technical data.</strong> Like most websites, our hosting provider automatically records basic request data such as IP address, browser type and the pages requested, for security and reliability.</p>
       <p><strong>Your messages.</strong> If you email or call us, we keep what you send and our replies.</p>
       <p>We ask for only what we need to run the program safely. We do not ask children to provide any information themselves.</p>`,
@@ -57,11 +58,11 @@ const sections = [
     body: `
       <p>We use personal information only for the following purposes:</p>
       <ul>
-        <li>to respond to your enquiry and, once enrolment opens, to process your child’s enrolment;</li>
+        <li>to respond to your enquiry, to process your registration, confirm your child’s spot and take payment;</li>
         <li>to communicate with you about dates, sessions, drop-off and pick-up, and changes to the program;</li>
         <li>to keep your child safe and well, including acting on allergy and medical information;</li>
         <li>to contact you or your emergency contact if there is an illness, injury or other urgent matter;</li>
-        <li>to keep records of enquiries and enrolments, and to meet legal, tax and accounting obligations;</li>
+        <li>to keep records of registrations and payments, and to meet legal, tax and accounting obligations;</li>
         <li>to respond to your questions and requests, and to improve the program.</li>
       </ul>
       <p>We do not use your information for advertising, and we will not use it for a new purpose without telling you and, where required, asking for your consent first.</p>`,
@@ -69,7 +70,7 @@ const sections = [
   {
     title: 'Consent',
     body: `
-      <p>By submitting an enquiry form or enrolling your child, and ticking the consent box, you give your consent, as your child’s parent or legal guardian, to the collection, use and disclosure of the information described in this policy. This includes your child’s health information, which is sensitive and which we collect only so that we can care for your child during sessions.</p>
+      <p>By submitting an enquiry form or completing the registration form and ticking the consent box, you give your consent, as your child’s parent or legal guardian, to the collection, use and disclosure of the information described in this policy. This includes your child’s health information, which is sensitive and which we collect only so that we can care for your child during sessions.</p>
       <p>You may withdraw your consent at any time, subject to legal or contractual restrictions, by contacting us via ${email}. Withdrawing consent may mean we can no longer offer your child a place in the program, because some information is essential to supervise children safely.</p>`,
   },
   {
@@ -77,7 +78,7 @@ const sections = [
     body: `
       <p>We do not sell, rent or trade personal information. We share it only as follows:</p>
       <ul>
-        <li><strong>Service providers</strong> who help us operate the program, acting on our instructions: Web3Forms (delivers form submissions to us by email), our email provider, and Cloudflare (website hosting and delivery).</li>
+        <li><strong>Service providers</strong> who help us operate the program, acting on our instructions: Web3Forms (delivers enquiry and registration form submissions to us by email), Stripe (card payments), our email provider, and Cloudflare (website hosting and delivery).</li>
         <li><strong>Emergency responders and medical professionals</strong>, if your child needs urgent care, limited to what is needed to help.</li>
         <li><strong>Authorities and advisers</strong>, where required by law or a court order, or to protect the safety of a child, and to our professional advisers (such as accountants) under duties of confidentiality.</li>
       </ul>
@@ -93,7 +94,7 @@ const sections = [
     body: `
       <ul>
         <li><strong>Health, allergy and emergency-contact details</strong> are deleted or securely destroyed within ${legal.medicalRetentionMonths} months after the end of the program your child attended.</li>
-        <li><strong>Enquiry, enrolment and tax records</strong> are kept for as long as Canadian tax and accounting rules require, generally up to six years.</li>
+        <li><strong>Registration, payment and tax records</strong> are kept for as long as Canadian tax and accounting rules require, generally up to six years.</li>
         <li><strong>Emails and other correspondence</strong> are kept only as long as they are useful for the purposes above, then deleted.</li>
       </ul>
       <p>When information is no longer needed, we delete it or make it anonymous.</p>`,
@@ -101,14 +102,14 @@ const sections = [
   {
     title: 'How we protect it',
     body: `
-      <p>We use reasonable safeguards appropriate to how sensitive the information is. This website is delivered over an encrypted (HTTPS) connection. Form submissions are sent directly to a private inbox, and access is limited to the people who need it to run the program. Health and emergency-contact details needed during sessions are kept with us at the session and not left unattended.</p>
+      <p>We use reasonable safeguards appropriate to how sensitive the information is. This website is delivered over an encrypted (HTTPS) connection. Enquiry and registration details are sent directly to a private inbox, and access is limited to the people who need it to run the program. Health and emergency-contact details needed during sessions are kept with us at the session and not left unattended.</p>
       <p>No method of transmission or storage is perfectly secure. If a breach creates a real risk of significant harm to you or your child, we will notify you and report it to the Privacy Commissioner of Canada as the law requires.</p>`,
   },
   {
     title: 'Cookies, analytics and links',
     body: `
       <p>This website does not currently use advertising or tracking cookies, and we do not run third-party analytics. If that changes, we will update this policy first and, where required, ask for your consent.</p>
-      <p>Some links, such as map links, lead to other websites. Those sites have their own privacy practices, which we do not control.</p>`,
+      <p>Some links, such as map links, lead to other websites. Those sites have their own privacy practices, which we do not control. The Stripe checkout page, in particular, is governed by Stripe’s own privacy policy.</p>`,
   },
   {
     title: 'Your rights',
@@ -130,12 +131,13 @@ const sections = [
   {
     title: 'Changes to this policy',
     body: `
-      <p>We may update this policy from time to time. The effective date at the top shows when it last changed. If we make a significant change, we will tell enrolled families by email and, where required, ask for fresh consent.</p>`,
+      <p>We may update this policy from time to time. The effective date at the top shows when it last changed. If we make a significant change, we will tell registered families by email and, where required, ask for fresh consent.</p>`,
   },
   {
     title: 'Contact us',
     body: `
-      ${contactBlock}`,
+      ${contactBlock}
+      <p>Please send privacy requests to the contact above rather than to any payment address we give you.</p>`,
   },
 ];
 ---

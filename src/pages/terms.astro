@@ -5,7 +5,7 @@ import { program, legal } from '~/data/program';
 
 const metadata = {
   title: 'Program Terms',
-  description: `The terms that apply when your child takes part in ${legal.entity}: enrolment, health and safety, and more.`,
+  description: `The terms that apply when your child takes part in ${legal.entity}: fees, cancellations, health and safety, and more.`,
 };
 
 const email = program.contactEmail
@@ -18,29 +18,43 @@ const contactLines = [
   .filter(Boolean)
   .join('<br />');
 const contactBlock = `<p>${legal.entity}<br />${program.city}${contactLines ? '<br />' + contactLines : ''}</p>${
-  program.contactEmail ? '' : '<p>Please reach us through ' + email + '.</p>'
+  program.contactEmail ? '' : '<p>Please contact us through ' + email + '.</p>'
 }`;
+const holdHours = 48; // how long a spot is held while an Interac e-Transfer is verified
 
 // DRAFT for legal review. Business rules mirror the FAQ and src/data/program.ts; edit both together.
 const sections = [
   {
     title: 'About these terms',
     body: `
-      <p>These terms govern your child’s participation in ${legal.entity} (the “program”), run in ${program.city} by ${legal.operator} (“we”, “us”). By enrolling a child, you agree to them. Please read them together with our <a href="/privacy">Privacy Policy</a>.</p>
+      <p>These terms govern your child’s participation in ${legal.entity} (the “program”), run in ${program.city} by ${legal.operator} (“we”, “us”). By registering a child and ticking the consent box, you agree to them. Please read them together with our <a href="/privacy">Privacy Policy</a>.</p>
       <p>You confirm that you are the child’s parent or legal guardian, that you are at least 18 years old, and that you have authority to enrol the child and to agree to these terms on their behalf.</p>`,
   },
   {
     title: 'The program',
     body: `
-      <p>The program is a character enrichment program for children in ${program.grades}. It runs for ${program.sessions} weekly sessions of ${program.sessionLength} each, with up to ${program.maxGroupSize} children per group. Sessions use stories, conversation and hands-on activities to explore gratitude, kindness, empathy, friendship, respect, courage and helping others.</p>
-      <p>Dates, times and locations are announced separately and confirmed to enrolled families. We may adjust the schedule or venue where reasonably necessary and will give you as much notice as we can.</p>
+      <p>The program is a character enrichment program for children in ${program.grades}. It runs for ${program.sessions} weekly sessions of ${program.sessionLength} each, with up to ${program.maxGroupSize} children per group. Sessions use stories, conversation, hands-on activities and reflection to explore gratitude, kindness, empathy, friendship, respect, courage and helping others.</p>
+      <p>Dates, times and locations are announced separately and confirmed to registered families by email. Before a program opens for registration, enquiries do not reserve a place or create any obligation for you or for us. We may adjust the schedule or venue where reasonably necessary and will give you as much notice as we can.</p>
       <p>The program is educational enrichment. It is not counselling, therapy, childcare or medical advice, and it does not replace support from a qualified professional if your child needs it. We cannot promise any particular outcome for an individual child.</p>`,
   },
   {
-    title: 'Enrolment, fees and cancellations',
+    title: 'Registration and fees',
     body: `
-      <p>${program.upcomingNote} Enrolment is not yet open. Any fees, payment methods and cancellation and refund terms will be confirmed before a program opens for enrolment, and these terms will be updated at that time.</p>
-      <p>Until then, enquiring about a program does not reserve a place or create any obligation for you or for us. You agree to give accurate information and to tell us promptly if it changes. Group sizes are limited, so places will be offered in the order enrolments are completed.</p>`,
+      <p>The fee for each program, including applicable HST, is published or confirmed to you before you register, and covers all ${program.sessions} sessions. It includes program materials, an activity booklet, take-home reminder cards and a certificate of completion. The fee shown at the time you register applies to that registration.</p>
+      <p>Your spot is not reserved until you have submitted the registration form and either paid by credit card or, if you choose Interac e-Transfer, we have received your transfer.</p>
+      <ul>
+        <li><strong>Credit card:</strong> paid through Stripe’s secure checkout. Your spot is confirmed as soon as payment completes.</li>
+        <li><strong>Interac e-Transfer:</strong> sent to the address we give you when you register. We hold your spot for ${holdHours} hours while we verify the transfer, and confirm by email once it arrives. If we do not receive it within that time, the spot may be released to another family.</li>
+      </ul>
+      <p>You agree to give accurate information and to tell us promptly if it changes. Group sizes are limited, so places are offered in the order registrations are completed.</p>`,
+  },
+  {
+    title: 'Cancellations and refunds',
+    body: `
+      <p><strong>Before the first session</strong> you may cancel and we will refund your payment in full.</p>
+      <p><strong>After the program has begun</strong>, refunds are at our discretion because your child’s place and materials are committed. Please contact us via ${email} if something has changed, and we will do our best to work with you.</p>
+      <p><strong>If we cancel or cannot deliver a session,</strong> we will reschedule it. If we cannot, we will refund the fee for the sessions not delivered, calculated in equal shares across the ${program.sessions} sessions.</p>
+      <p>Approved refunds are returned to the original payment method, or by Interac e-Transfer if that is how you paid, within a reasonable time.</p>`,
   },
   {
     title: 'Missed sessions',
@@ -51,7 +65,7 @@ const sections = [
     title: 'Health, safety and supervision',
     body: `
       <ul>
-        <li><strong>Health information.</strong> You must tell us about any allergies, medical conditions, medication or other needs when you enrol your child, and keep that information up to date. We keep it, with your emergency contact, with us at every session.</li>
+        <li><strong>Health information.</strong> You must tell us about any allergies, medical conditions, medication or other needs at registration, and keep that information up to date. We keep it, with your emergency contact, with us at every session.</li>
         <li><strong>Illness.</strong> Please keep your child at home if they are unwell, including with a fever, vomiting or any contagious illness.</li>
         <li><strong>Drop-off and pick-up.</strong> ${program.dropOff} Please do not send anyone to collect your child whom we have not been told about in advance.</li>
         <li><strong>Emergencies.</strong> If your child is injured or becomes seriously ill, we will contact you and your emergency contact straight away. You authorize us to call 911 or seek urgent medical care for your child if we cannot reach you in time. You remain responsible for any resulting medical or ambulance costs.</li>
@@ -61,7 +75,7 @@ const sections = [
   {
     title: 'Behaviour and participation',
     body: `
-      <p>We aim for a calm, respectful space where every child belongs. We will work with you and your child first if a child finds it hard to take part safely or respectfully. If behaviour continues to put the safety or wellbeing of the child or others at risk, we may ask you to collect your child early or, as a last resort, to withdraw from the program. Where we do, we will discuss a fair outcome with you.</p>`,
+      <p>We aim for a calm, respectful space where every child belongs. We will work with you and your child first if a child finds it hard to take part safely or respectfully. If behaviour continues to put the safety or wellbeing of the child or others at risk, we may ask you to collect your child early or, as a last resort, to withdraw from the program. Where we do, we will discuss a fair refund for sessions not attended.</p>`,
   },
   {
     title: 'Photos and media',
@@ -78,7 +92,7 @@ const sections = [
     title: 'Program materials and this website',
     body: `
       <p>The program content, curriculum, illustrations, text and design on this website and in session materials belong to ${legal.operator} or are used with permission. You may use take-home materials with your family, but you may not copy, sell or distribute the program materials without our written permission.</p>
-      <p>We work to keep this website accurate, but we may change or correct it at any time, and dates, availability and details here do not form a binding offer until confirmed in your enrolment.</p>`,
+      <p>We work to keep this website accurate, but we may change or correct it at any time, and dates, availability and details here do not form a binding offer until confirmed in your registration.</p>`,
   },
   {
     title: 'Privacy',
@@ -94,7 +108,7 @@ const sections = [
   {
     title: 'Changes to these terms',
     body: `
-      <p>We may update these terms from time to time. The terms in force when you enrol apply to your child’s participation in that program. The effective date at the top shows the current version.</p>`,
+      <p>We may update these terms from time to time. The terms in force when you register apply to your child’s participation in that program. The effective date at the top shows the current version.</p>`,
   },
   {
     title: 'Contact us',
@@ -107,7 +121,7 @@ const sections = [
 <Layout metadata={metadata}>
   <LegalDocument
     title="Program Terms"
-    intro={`Plain, fair terms for families: how enrolment works, and how we look after your child.`}
+    intro={`Plain, fair terms for families: what you pay, how cancellations work, and how we look after your child.`}
     sections={sections}
     related={{ text: 'Privacy Policy', href: '/privacy' }}
   />
