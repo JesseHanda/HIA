@@ -1,0 +1,385 @@
+---
+import { Icon } from 'astro-icon/components';
+import { integrations, program } from '~/data/program';
+
+const input =
+  'mt-1 block w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-base text-default shadow-sm placeholder:text-gray-400 focus:border-primary aria-[invalid=true]:border-red-700 aria-[invalid=true]:bg-red-50/40';
+const label = 'block text-sm font-semibold text-heading';
+
+interface Field {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'select' | 'textarea';
+  required?: boolean;
+  autocomplete?: string;
+  error?: string;
+  options?: string[];
+  placeholder?: string;
+}
+
+const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Field[] }> = [
+  {
+    audience: 'school',
+    heading: 'Bring CHALLO to Your School',
+    fields: [
+      {
+        name: 'school_name',
+        label: 'School name',
+        required: true,
+        error: 'Please enter your school’s name.',
+      },
+      {
+        name: 'contact_name',
+        label: 'Your name',
+        required: true,
+        autocomplete: 'name',
+        error: 'Please enter your name.',
+      },
+      { name: 'role', label: 'Your role', placeholder: 'e.g. Principal, teacher, parent council' },
+      {
+        name: 'email',
+        label: 'Email',
+        type: 'email',
+        required: true,
+        autocomplete: 'email',
+        error: 'Please enter an email we can reach you at, like name@example.com.',
+      },
+      { name: 'phone', label: 'Phone', type: 'tel', autocomplete: 'tel' },
+      {
+        name: 'program_interest',
+        label: 'Program of interest',
+        type: 'select',
+        options: ['Lunchtime program', 'After-school program', 'Not sure yet'],
+      },
+      {
+        name: 'message',
+        label: 'Anything you’d like us to know',
+        type: 'textarea',
+        placeholder: 'Grades, approximate number of students, timing…',
+      },
+    ],
+  },
+  {
+    audience: 'parent',
+    heading: 'Ask About Upcoming Programs',
+    fields: [
+      {
+        name: 'parent_name',
+        label: 'Your name',
+        required: true,
+        autocomplete: 'name',
+        error: 'Please enter your name.',
+      },
+      {
+        name: 'email',
+        label: 'Email',
+        type: 'email',
+        required: true,
+        autocomplete: 'email',
+        error: 'Please enter an email we can reach you at, like name@example.com.',
+      },
+      { name: 'phone', label: 'Phone', type: 'tel', autocomplete: 'tel' },
+      {
+        name: 'child_grade',
+        label: 'Your child’s grade',
+        type: 'select',
+        options: ['Grade 1', 'Grade 2', 'Grade 3', 'Other'],
+      },
+      { name: 'school_name', label: 'Your child’s school' },
+      {
+        name: 'message',
+        label: 'Anything you’d like us to know',
+        type: 'textarea',
+        placeholder: 'Questions, preferred timing, or where you’d like a program…',
+      },
+    ],
+  },
+];
+---
+
+<dialog
+  id="enquiry-dialog"
+  aria-labelledby="enquiry-title"
+  class="m-auto max-h-[94dvh] w-[min(40rem,calc(100vw-1rem))] overflow-hidden rounded-3xl border-0 bg-page p-0 text-default shadow-2xl backdrop:bg-black/55 backdrop:backdrop-blur-sm"
+>
+  <div class="flex max-h-[94dvh] flex-col">
+    <div class="flex items-start justify-between gap-4 border-b border-gray-200 bg-white px-5 py-4 sm:px-8">
+      <div>
+        <h2 id="enquiry-title" class="font-heading text-2xl font-extrabold text-heading">Enquire About CHALLO</h2>
+        {
+          forms.map((f) => (
+            <p class="text-sm text-muted" data-enquiry-sub={f.audience} hidden>
+              {f.heading}
+            </p>
+          ))
+        }
+      </div>
+      <button
+        type="button"
+        data-close-enquiry
+        aria-label="Close enquiry form"
+        class="rounded-full p-2 text-muted transition hover:bg-gray-100 hover:text-heading"
+      >
+        <Icon name="tabler:x" class="h-6 w-6" />
+      </button>
+    </div>
+
+    <div class="overflow-y-auto px-5 py-6 sm:px-8">
+      {
+        forms.map((f) => (
+          <form
+            data-enquiry-form={f.audience}
+            class="space-y-4"
+            novalidate
+            hidden
+            data-endpoint={integrations.formEndpoint}
+            data-contact={program.contactEmail}
+          >
+            {/* WEB3FORMS ACCESS KEY — set `web3formsAccessKey` in src/data/program.ts */}
+            <input type="hidden" name="access_key" value={integrations.web3formsAccessKey} />
+            <input type="hidden" name="from_name" value="CHALLO Kids Club website" />
+            <input type="hidden" name="enquiry_type" value={f.audience === 'school' ? 'School' : 'Parent / family'} />
+            {/* Honeypot: real visitors never see or tick this */}
+            <input type="checkbox" name="botcheck" class="hidden" tabindex="-1" autocomplete="off" />
+
+            {f.fields.map((fld) => {
+              const id = `${f.audience}-${fld.name}`;
+              return (
+                <div>
+                  <label class={label} for={id}>
+                    {fld.label}
+                    {!fld.required && <span class="font-normal text-muted"> (optional)</span>}
+                  </label>
+                  {fld.type === 'select' ? (
+                    <select class={input} id={id} name={fld.name}>
+                      <option value="" selected>
+                        Select…
+                      </option>
+                      {fld.options?.map((o) => (
+                        <option>{o}</option>
+                      ))}
+                    </select>
+                  ) : fld.type === 'textarea' ? (
+                    <textarea class={input} id={id} name={fld.name} rows="3" placeholder={fld.placeholder} />
+                  ) : (
+                    <input
+                      class={input}
+                      id={id}
+                      name={fld.name}
+                      type={fld.type ?? 'text'}
+                      autocomplete={fld.autocomplete ?? 'off'}
+                      placeholder={fld.placeholder}
+                      required={fld.required}
+                      data-error={fld.error}
+                    />
+                  )}
+                </div>
+              );
+            })}
+
+            <label class="flex items-start gap-3 pt-2 text-sm">
+              <input
+                type="checkbox"
+                name="consent"
+                value="Yes"
+                required
+                data-error="Please tick the box to confirm before continuing."
+                class="mt-0.5 h-5 w-5 flex-none accent-rose-600"
+              />
+              <span>
+                I agree that CHALLO Kids Club may use these details to reply to my enquiry, as described in the{' '}
+                <a href="/privacy" target="_blank" class="font-semibold text-secondary underline">
+                  privacy policy
+                </a>
+                .
+              </span>
+            </label>
+
+            <p
+              data-enquiry-error
+              role="alert"
+              hidden
+              class="rounded-xl bg-red-50 p-3 text-sm font-medium text-red-900"
+            />
+
+            <button
+              type="submit"
+              class="btn-primary w-full px-8 py-4 text-lg shadow-lg shadow-rose-500/25 disabled:cursor-wait disabled:opacity-70"
+            >
+              <span data-submit-label>Send enquiry</span>
+              <Icon name="tabler:send" class="ml-2 h-5 w-5" />
+            </button>
+          </form>
+        ))
+      }
+
+      <div id="enquiry-success" hidden class="py-6 text-center" role="status">
+        <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-rose-100 text-primary">
+          <Icon name="tabler:heart-filled" class="h-10 w-10" />
+        </span>
+        <h3 tabindex="-1" data-success-heading class="mt-4 font-heading text-2xl font-extrabold text-heading">
+          Thank you — we’ve got your enquiry
+        </h3>
+        <p class="mx-auto mt-2 max-w-md text-muted">We’ll be in touch as soon as we have more to share.</p>
+        <button type="button" data-close-enquiry class="btn-secondary mt-6">Close</button>
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script>
+  const dialog = document.getElementById('enquiry-dialog') as HTMLDialogElement | null;
+
+  if (dialog) {
+    const forms = Array.from(dialog.querySelectorAll<HTMLFormElement>('[data-enquiry-form]'));
+    const subs = Array.from(dialog.querySelectorAll<HTMLElement>('[data-enquiry-sub]'));
+    const success = document.getElementById('enquiry-success') as HTMLElement;
+    let dirty = false;
+    let pressedOnBackdrop = false;
+
+    const show = (audience: string) => {
+      forms.forEach((f) => (f.hidden = f.dataset.enquiryForm !== audience));
+      subs.forEach((s) => (s.hidden = s.dataset.enquirySub !== audience));
+      success.hidden = true;
+    };
+
+    const open = (audience: string) => {
+      if (!dialog.open) {
+        show(audience);
+        dialog.showModal();
+      }
+      document.documentElement.classList.add('overflow-hidden');
+    };
+
+    dialog.addEventListener('close', () => {
+      document.documentElement.classList.remove('overflow-hidden');
+    });
+
+    document.addEventListener('click', (e) => {
+      const target = e.target as HTMLElement;
+      const trigger = target.closest<HTMLElement>('[data-enquire]');
+      if (trigger) {
+        e.preventDefault();
+        open(trigger.dataset.enquire === 'school' ? 'school' : 'parent');
+      } else if (target.closest('[data-close-enquiry]')) {
+        dialog.close();
+      } else if (target === dialog && pressedOnBackdrop && !dirty) {
+        dialog.close(); // click on the backdrop, but never while a half-finished form is open
+      }
+    });
+    dialog.addEventListener('pointerdown', (e) => {
+      pressedOnBackdrop = e.target === dialog;
+    });
+
+    forms.forEach((form) => {
+      const errorBox = form.querySelector<HTMLElement>('[data-enquiry-error]') as HTMLElement;
+      const submit = form.querySelector<HTMLButtonElement>('button[type="submit"]') as HTMLButtonElement;
+      const submitLabel = submit.querySelector('[data-submit-label]') as HTMLElement;
+      const fields = Array.from(form.querySelectorAll<HTMLInputElement>('[required][data-error]'));
+
+      // Inline validation: one clear message per field, next to the field.
+      const errorFor = (field: HTMLInputElement) => {
+        const id = `${field.id || field.name}-error`;
+        let el = document.getElementById(id);
+        if (!el) {
+          el = document.createElement('p');
+          el.id = id;
+          el.hidden = true;
+          el.className = 'mt-1.5 text-sm font-medium text-red-800';
+          (field.type === 'checkbox' ? field.closest('label') : field)?.insertAdjacentElement('afterend', el);
+        }
+        return el;
+      };
+      const problem = (field: HTMLInputElement) => {
+        const message = field.dataset.error ?? '';
+        if (field.type === 'checkbox') return field.checked ? '' : message;
+        const value = field.value.trim();
+        if (!value) return message;
+        if (field.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(value)) return message;
+        return '';
+      };
+      const check = (field: HTMLInputElement) => {
+        const message = problem(field);
+        const el = errorFor(field);
+        el.textContent = message;
+        el.hidden = !message;
+        if (message) {
+          field.setAttribute('aria-invalid', 'true');
+          field.setAttribute('aria-describedby', el.id);
+        } else {
+          field.removeAttribute('aria-invalid');
+          field.removeAttribute('aria-describedby');
+        }
+        return !message;
+      };
+
+      form.addEventListener('input', (e) => {
+        dirty = true;
+        const field = e.target as HTMLInputElement;
+        if (field.getAttribute('aria-invalid') === 'true') check(field);
+        errorBox.hidden = true;
+      });
+      form.addEventListener('focusout', (e) => {
+        const field = e.target as HTMLInputElement;
+        if (fields.includes(field) && field.value !== '' && field.type !== 'checkbox') check(field);
+      });
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        errorBox.hidden = true;
+
+        const invalid = fields.filter((f) => !check(f));
+        if (invalid.length) {
+          errorBox.textContent =
+            invalid.length === 1
+              ? 'One thing needs your attention before we can send this. It is marked above.'
+              : `${invalid.length} things need your attention before we can send this. They are marked above.`;
+          errorBox.hidden = false;
+          invalid[0].focus();
+          return;
+        }
+
+        submit.disabled = true;
+        const original = submitLabel.textContent;
+        submitLabel.textContent = 'Sending…';
+
+        const data = Object.fromEntries(new FormData(form).entries());
+        // Honeypot tripped: silently pretend success
+        if (data.botcheck) {
+          submit.disabled = false;
+          submitLabel.textContent = original;
+          return;
+        }
+        delete data.botcheck;
+        const who = String(data.school_name || data.parent_name || data.email);
+        data.subject = `New CHALLO enquiry (${data.enquiry_type}): ${who}`;
+        data.replyto = String(data.email);
+
+        try {
+          const res = await fetch(form.dataset.endpoint as string, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+            body: JSON.stringify(data),
+          });
+          const json = await res.json().catch(() => ({}));
+          if (!res.ok || json.success === false) throw new Error(json.message || 'Submission failed');
+
+          form.reset();
+          forms.forEach((f) => (f.hidden = true));
+          subs.forEach((s) => (s.hidden = true));
+          dirty = false;
+          dialog.querySelector('.overflow-y-auto')?.scrollTo({ top: 0 });
+          success.hidden = false;
+          success.querySelector<HTMLElement>('[data-success-heading]')?.focus();
+        } catch (err) {
+          const contact = form.dataset.contact;
+          errorBox.textContent = `Sorry — we couldn’t send your enquiry just now. Please try again${contact ? `, or email ${contact}` : ' in a little while'}.`;
+          errorBox.hidden = false;
+          submit.disabled = false;
+          submitLabel.textContent = original;
+          console.error(err);
+        }
+      });
+    });
+  }
+</script>

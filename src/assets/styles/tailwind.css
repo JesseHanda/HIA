@@ -18,6 +18,23 @@
   --color-muted: var(--aw-color-text-muted);
   --color-link: var(--aw-color-link, var(--aw-color-primary));
 
+  /* CHALLO brand palette: the logo's red replaces rose, and the old green ground becomes neutral. */
+  --color-rose-50: #fdf1f2;
+  --color-rose-100: #fbe0e2;
+  --color-rose-200: #f7c2c6;
+  --color-rose-300: #f09399;
+  --color-rose-400: #e65862;
+  --color-rose-500: #dc313c;
+  --color-rose-600: #d7202b;
+  --color-rose-700: #b01a23;
+  --color-rose-800: #8c161d;
+  --color-rose-900: #6b1217;
+  --color-green-50: #f7f7f7;
+  --color-green-100: #efefef;
+  --color-green-200: #e0e0e0;
+  --color-green-800: #2b2b2b;
+  --color-green-900: #1a1a1a;
+
   --font-sans:
     var(--aw-font-sans, ui-sans-serif), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
     'Segoe UI Symbol', 'Noto Color Emoji';
@@ -164,7 +181,7 @@
 
 /* Calm, themed browser surfaces. */
 html {
-  scrollbar-color: rgb(253 164 175) transparent;
+  scrollbar-color: rgb(240 147 153) transparent;
   accent-color: var(--aw-color-primary);
 }
 :where(input, textarea) {

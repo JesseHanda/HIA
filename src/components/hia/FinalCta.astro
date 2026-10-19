@@ -1,10 +1,10 @@
 ---
 import { Icon } from 'astro-icon/components';
-import Button from '~/components/ui/Button.astro';
+import EnquiryButtons from './EnquiryButtons.astro';
 import { program } from '~/data/program';
 ---
 
-<section id="register" class="relative scroll-mt-[72px] overflow-hidden not-prose">
+<section id="enquire" class="relative scroll-mt-[72px] overflow-hidden not-prose">
   <div class="absolute inset-0 -z-10 bg-gradient-to-br from-rose-700 to-rose-900" aria-hidden="true"></div>
   <div class="mx-auto max-w-3xl px-4 py-16 text-center text-white md:px-6 md:py-20">
     <Icon name="tabler:heart-filled" class="mx-auto h-10 w-10 text-rose-200" />
@@ -12,16 +12,8 @@ import { program } from '~/data/program';
       You can make a difference — one heart at a time.
     </h2>
     <p class="mx-auto mt-4 max-w-xl text-lg text-rose-50">
-      Give your child {program.sessions} weeks to notice the good, grow their kindness and put it into action. Spots are limited
-      to {program.maxGroupSize} children per group.
+      {program.upcomingNote} Get in touch and we’ll share details as soon as they’re confirmed.
     </p>
-    <Button
-      text="Register Now"
-      href="#register"
-      icon="tabler:arrow-right"
-      class="on-rose mt-8 border-white bg-white px-10 py-4 text-lg font-bold !text-rose-700 shadow-xl hover:!bg-rose-50"
-      data-open-register
-    />
-    <p class="mt-4 text-sm text-rose-100">Or email {program.contactEmail} with any questions.</p>
+    <EnquiryButtons tone="light" class="mt-8 items-center sm:justify-center" />
   </div>
 </section>

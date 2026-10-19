@@ -3,16 +3,30 @@ import { program, educator } from './data/program';
 
 export const headerData = {
   links: [
-    { text: 'The Program', href: getPermalink('/#curriculum') },
+    { text: 'What CHALLO Means', href: getPermalink('/#challo') },
+    { text: 'The Program', href: getPermalink('/#outcomes') },
+    { text: 'Eight Weeks', href: getPermalink('/#curriculum') },
     { text: 'Details', href: getPermalink('/#details') },
     { text: 'Your Educator', href: getPermalink('/#educator') },
     { text: 'FAQ', href: getPermalink('/#faq') },
-    { text: 'Pricing', href: getPermalink('/#pricing') },
   ],
   actions: [
-    { text: 'Register Now', href: getPermalink('/#register'), variant: 'primary' as const, 'data-open-register': '' },
+    {
+      text: 'Ask About Upcoming Programs',
+      href: getPermalink('/#upcoming'),
+      variant: 'primary' as const,
+      'data-enquire': 'parent',
+    },
   ],
 };
+
+const contactLinks = [
+  ...(program.contactEmail ? [{ text: program.contactEmail, href: `mailto:${program.contactEmail}` }] : []),
+  ...(program.contactPhone
+    ? [{ text: program.contactPhone, href: `tel:${program.contactPhone.replace(/[^\d+]/g, '')}` }]
+    : []),
+  { text: program.city, href: program.mapUrl },
+];
 
 export const footerData = {
   tagline: program.tagline,
@@ -20,32 +34,30 @@ export const footerData = {
     {
       title: 'Program',
       links: [
-        { text: 'Curriculum', href: getPermalink('/#curriculum') },
-        { text: 'Dates & Location', href: getPermalink('/#details') },
-        { text: 'Pricing', href: getPermalink('/#pricing') },
+        { text: 'What CHALLO Means', href: getPermalink('/#challo') },
+        { text: 'Eight-Week Journey', href: getPermalink('/#curriculum') },
+        { text: 'Upcoming Programs', href: getPermalink('/#upcoming') },
       ],
     },
     {
-      title: 'Families',
+      title: 'Enquire',
       links: [
+        { text: 'Bring CHALLO to Your School', href: getPermalink('/#upcoming'), 'data-enquire': 'school' },
+        { text: 'Ask About Upcoming Programs', href: getPermalink('/#upcoming'), 'data-enquire': 'parent' },
         { text: 'FAQ', href: getPermalink('/#faq') },
-        { text: 'Your Educator', href: getPermalink('/#educator') },
-        { text: 'Register', href: getPermalink('/#register') },
       ],
     },
     {
       title: 'Contact',
-      links: [
-        { text: program.contactEmail, href: `mailto:${program.contactEmail}` },
-        { text: program.contactPhone, href: `tel:${program.contactPhone.replace(/[^\d+]/g, '')}` },
-        { text: program.city, href: program.mapUrl },
-      ],
+      links: contactLinks,
     },
   ],
   secondaryLinks: [
     { text: 'Terms', href: getPermalink('/terms') },
     { text: 'Privacy Policy', href: getPermalink('/privacy') },
   ],
-  socialLinks: [{ ariaLabel: 'Email', icon: 'tabler:mail', href: `mailto:${program.contactEmail}` }],
-  footNote: `© ${new Date().getFullYear()} Hearts in Action · Created &amp; facilitated by ${educator.name} · ${program.city}`,
+  socialLinks: program.contactEmail
+    ? [{ ariaLabel: 'Email', icon: 'tabler:mail', href: `mailto:${program.contactEmail}` }]
+    : [],
+  footNote: `© ${new Date().getFullYear()} CHALLO Kids Club · Created &amp; facilitated by ${educator.name} · ${program.city}`,
 };

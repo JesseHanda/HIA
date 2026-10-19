@@ -2,7 +2,7 @@
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Headline from '~/components/ui/Headline.astro';
 import Art from './Art.astro';
-import { gallery, galleryNote } from '~/data/program';
+import { gallery } from '~/data/program';
 
 const tones: Record<string, string> = {
   rose: 'bg-rose-100',
@@ -18,7 +18,7 @@ const tones: Record<string, string> = {
 <WidgetWrapper id="gallery" containerClass="max-w-6xl" tone="green">
   <Headline
     title="Hands-on, joyful and unforgettable"
-    subtitle="Children learn by doing — planting, creating, talking and building a garden together."
+    subtitle="Children learn by doing — talking, creating and reflecting together."
   />
 
   <div
@@ -27,7 +27,7 @@ const tones: Record<string, string> = {
     aria-label="Program highlights. Scroll sideways to see them all."
     tabindex="0"
   >
-    <ul class="flex snap-x snap-mandatory gap-4 sm:grid sm:grid-cols-2 lg:grid-cols-3 sm:gap-5">
+    <ul class="flex snap-x snap-mandatory gap-4 sm:grid sm:grid-cols-3 sm:gap-5">
       {
         gallery.map((g) => (
           <li class="group w-[78%] flex-none snap-start overflow-hidden rounded-3xl bg-white shadow-md shadow-green-900/5 ring-1 ring-green-900/10 motion-safe:transition-transform motion-safe:duration-300 motion-safe:hover:-translate-y-0.5 sm:w-auto">
@@ -47,5 +47,4 @@ const tones: Record<string, string> = {
       }
     </ul>
   </div>
-  {gallery.some((g) => !g.src) && <p class="mt-6 text-center text-sm text-muted">{galleryNote}</p>}
 </WidgetWrapper>

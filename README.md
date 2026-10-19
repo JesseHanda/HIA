@@ -1,4 +1,4 @@
-# Hearts in Action — landing page
+# CHALLO Kids Club — landing page
 
 Astro + Tailwind (AstroWind template), static output.
 
@@ -8,14 +8,15 @@ Everything editable lives in **`src/data/program.ts`** (search for `EDIT`):
 
 | Placeholder                          | Where                                                                  |
 | ------------------------------------ | ---------------------------------------------------------------------- |
-| `<!-- STRIPE PAYMENT LINK URL -->`   | `integrations.stripePaymentLink`                                       |
 | `<!-- VIDEO / YOUTUBE EMBED URL -->` | `integrations.videoEmbedUrl` (e.g. `https://www.youtube.com/embed/ID`) |
 | `<!-- WEB3FORMS ACCESS KEY -->`      | `integrations.web3formsAccessKey` (free key at web3forms.com)          |
-| Dates, venue, map link, contact      | `program`                                                              |
-| e-Transfer email / security Q&A      | `etransfer`                                                            |
+| Dates, location                      | `program.upcomingNote` and the Details section                         |
+| Contact email / phone                | `program.contactEmail`, `program.contactPhone` (hidden while empty)    |
 | Background-check / first-aid badges  | `safety` (flip to `true` only when accurate)                           |
 | Gallery photos                       | `gallery[].src` → files in `public/gallery/`                           |
 | Educator photo                       | `photo` in `src/components/hia/Educator.astro`                         |
+
+Pricing, checkout and registration are hidden for now; the enquiry form (`EnquiryModal.astro`) replaces them. The previous registration modal, Stripe/e-Transfer settings and pricing section are in git history.
 
 Also set `site.site` in `src/config.yaml` and the Sitemap line in `public/robots.txt` to your real domain.
 
