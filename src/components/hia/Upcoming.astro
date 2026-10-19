@@ -1,0 +1,18 @@
+---
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
+import EnquiryButtons from './EnquiryButtons.astro';
+import { program } from '~/data/program';
+---
+
+<WidgetWrapper id="upcoming" containerClass="max-w-3xl" tone="green">
+  <Headline title="Upcoming programs" />
+  <div class="rounded-3xl border border-rose-200 bg-white p-8 text-center shadow-xl shadow-rose-900/10 md:p-10">
+    <p class="font-heading text-2xl font-bold text-heading md:text-3xl">{program.upcomingNote}</p>
+    <p class="mx-auto mt-3 max-w-xl text-muted">
+      Schools can ask about bringing CHALLO to their lunchtime or after-school programs, and families can ask to hear
+      about upcoming programs.
+    </p>
+    <EnquiryButtons class="mt-8 sm:justify-center" />
+  </div>
+</WidgetWrapper>

@@ -1,14 +1,11 @@
 /**
- * HEARTS IN ACTION — single source of truth for all editable landing-page content.
+ * CHALLO KIDS CLUB — single source of truth for all editable landing-page content.
  * Search for "EDIT" to find every value that needs your real details before launch.
  */
 
 // ───────────────────────── EXTERNAL INTEGRATIONS ─────────────────────────
 export const integrations = {
-  // <!-- STRIPE PAYMENT LINK URL -->  EDIT: paste your Stripe Payment Link (Dashboard → Payment Links)
-  stripePaymentLink: 'https://buy.stripe.com/placeholder',
-
-  // <!-- VIDEO / YOUTUBE EMBED URL -->  EDIT: e.g. 'https://www.youtube.com/embed/VIDEO_ID'. Leave '' to show the placeholder.
+  // <!-- VIDEO / YOUTUBE EMBED URL -->  EDIT: e.g. 'https://www.youtube.com/embed/VIDEO_ID'. Leave '' to show the logo instead.
   videoEmbedUrl: '',
 
   // <!-- WEB3FORMS ACCESS KEY -->  Public by design (safe in browser code). Delivers to the inbox you chose at web3forms.com
@@ -19,31 +16,68 @@ export const integrations = {
 
 // ───────────────────────── PROGRAM FACTS ─────────────────────────
 export const program = {
-  name: 'Hearts in Action',
+  name: 'CHALLO Kids Club',
+  descriptor: 'Character Enrichment Program',
   tagline: 'Instilling kindness, one heart at a time.',
+  intro:
+    'CHALLO Kids Club is an eight-week character enrichment program for children in Grades 1–3. Through stories, conversations and hands-on activities, children practise gratitude, kindness, empathy, friendship, respect, courage and helping others.',
   grades: 'Grades 1–3',
   sessions: 8,
   sessionLength: '60 minutes',
   frequency: 'Once a week',
   maxGroupSize: 15,
 
-  // EDIT: real dates / day / time / venue
-  startDate: 'Dates announced soon',
+  // EDIT: real dates / day / time / venue once a program is confirmed
+  upcomingNote: 'Upcoming dates and locations will be announced.',
   schedule: 'Once a week, 60 minutes',
   city: 'Burlington, Ontario',
-  venue: 'Exact address shared with registered families',
-  mapUrl: 'https://www.google.com/maps/search/?api=1&query=Burlington%2C+Ontario', // EDIT: link to exact venue
+  mapUrl: 'https://www.google.com/maps/search/?api=1&query=Burlington%2C+Ontario',
 
-  // EDIT: drop-off / pick-up wording once your venue is confirmed
-  dropOff:
-    'Please walk your child to the classroom door at the start of each session and meet them there at pick-up. We will email detailed drop-off and pick-up instructions as soon as you register.',
+  dropOff: 'Drop-off and pick-up details will be shared once a program’s dates and location are confirmed.',
 
-  contactEmail: 'test@gmail.com', // EDIT
-  contactPhone: '905-XXX-XXXX', // EDIT
+  // EDIT before launch: add the contact details you have confirmed. While empty, the site shows no email or phone
+  // and points people to the enquiry form instead.
+  contactEmail: '',
+  contactPhone: '',
 
-  // Shown under "Dates" while startDate is still a placeholder. EDIT the wording to match what you will really do.
-  datesNote: 'Registered families are emailed as soon as dates are set.',
+  // What to bring — applies to both lunchtime and after-school programs.
+  materials:
+    'All materials are provided. Children can attend in their regular school clothes or uniform. No change of clothes is needed.',
 };
+
+// ───────────────────────── WHAT DOES CHALLO STAND FOR? ─────────────────────────
+export const challo = [
+  { letter: 'C', word: 'Compassion', text: 'Understand and care about others.' },
+  { letter: 'H', word: 'Helping', text: 'Lend a hand.' },
+  { letter: 'A', word: 'Appreciation', text: 'Notice the good and express gratitude.' },
+  { letter: 'L', word: 'Listening', text: 'Listen with empathy and respect.' },
+  { letter: 'L', word: 'Love', text: 'Show kindness and include others.' },
+  { letter: 'O', word: 'Openness', text: 'Welcome differences and try new things.' },
+];
+
+// ───────────────────────── SESSION STRUCTURE ─────────────────────────
+export const sessionSteps = [
+  {
+    word: 'Learn It',
+    text: 'A story and conversation introduce the week’s value.',
+    icon: 'tabler:book-2',
+  },
+  {
+    word: 'Experience It',
+    text: 'Hands-on activities bring the value to life.',
+    icon: 'tabler:hand-click',
+  },
+  {
+    word: 'Remember It',
+    text: 'Children reflect and complete an activity page.',
+    icon: 'tabler:pencil',
+  },
+  {
+    word: 'Put It into Action',
+    text: 'Children think of ways to practise the value.',
+    icon: 'tabler:heart-handshake',
+  },
+];
 
 // ───────────────────────── EDUCATOR ─────────────────────────
 // EDIT: confirm these credentials are accurate before launch; every mention on the page reads from here.
@@ -53,31 +87,6 @@ export const educator = {
   badge: 'AMS-trained Montessori educator',
   role: 'Character Enrichment Program Creator',
   initials: 'RM',
-};
-
-// ───────────────────────── PRICING ─────────────────────────
-export const pricing = {
-  base: '$199',
-  total: '$224.87',
-  currency: 'CAD',
-  includes: [
-    '8 weekly 60-minute sessions',
-    'Complete program materials',
-    'Hands-on activities & reflection experiences',
-    'A weekly take-home keepsake or experience',
-    'Your child’s part in building the Hearts in Action Garden',
-    'Hearts in Action Certificate of completion',
-  ],
-};
-
-// ───────────────────────── INTERAC e-TRANSFER ─────────────────────────
-export const etransfer = {
-  email: 'payments@example.com', // EDIT: the email that receives e-Transfers
-  amount: '$224.87 CAD',
-  // EDIT: set a security question/answer (or enable auto-deposit and set securityQuestion to '').
-  securityQuestion: 'What is the name of the program?',
-  securityAnswer: 'heartsinaction',
-  holdHours: 48, // how long a spot is held while you verify the transfer
 };
 
 // ───────────────────────── SAFETY (flip to true only when accurate) ─────────────────────────
@@ -93,17 +102,15 @@ export const weeks = [
     n: 1,
     theme: 'Gratitude',
     title: 'Notice the Good',
-    icon: 'tabler:seeding',
-    garden: 'Seed',
+    icon: 'tabler:sun',
     text: 'Learning to recognize and appreciate the people, things and little moments that make life meaningful.',
-    doing: 'Children plant a real seed to care for at home and add their own Gratitude Seed to the class garden.',
+    doing: 'Stories, conversation and hands-on activities that help children notice the good around them.',
   },
   {
     n: 2,
     theme: 'Kindness',
     title: 'Small Acts, Big Impact',
     icon: 'tabler:heart-handshake',
-    garden: 'Roots',
     text: 'Discovering how simple acts of kindness can make a meaningful difference in someone else’s day.',
     doing: 'Stories, conversation and hands-on activities that turn kind ideas into kind actions.',
   },
@@ -112,7 +119,6 @@ export const weeks = [
     theme: 'Empathy',
     title: 'Seeing Through Someone Else’s Eyes',
     icon: 'tabler:eye-heart',
-    garden: 'Sprout',
     text: 'Learning to notice how others may feel and taking the time to understand, ask and listen.',
     doing: 'Practicing real-life situations to explore how others might feel, and what we can do about it.',
   },
@@ -121,7 +127,6 @@ export const weeks = [
     theme: 'Friendship',
     title: 'What Makes a Good Friend?',
     icon: 'tabler:users-group',
-    garden: 'Stem & Leaves',
     text: 'Exploring how care, listening, respect and inclusion help friendships grow.',
     doing: 'Partner and group activities that build listening, sharing and including others.',
   },
@@ -130,7 +135,6 @@ export const weeks = [
     theme: 'Respect',
     title: 'How We Treat Others Matters',
     icon: 'tabler:hand-love-you',
-    garden: 'Bud',
     text: 'Discovering that respect is reflected in the way we speak, listen, disagree, handle mistakes and treat others.',
     doing: 'Practicing speaking kindly, disagreeing respectfully and handling mistakes with grace.',
   },
@@ -139,7 +143,6 @@ export const weeks = [
     theme: 'Courage',
     title: 'Being Brave Enough to Do What’s Right',
     icon: 'tabler:flame',
-    garden: 'Bloom',
     text: 'Learning that courage doesn’t mean never being afraid — it means taking the next brave step even when something feels difficult.',
     doing: 'Stories and discussion about brave choices, plus a chance to practice taking a “next brave step”.',
   },
@@ -148,7 +151,6 @@ export const weeks = [
     theme: 'Helping Others',
     title: 'We Can Make a Difference',
     icon: 'tabler:heart-plus',
-    garden: 'Pollination & Sharing',
     text: 'Discovering how we can use what we have — our time, words, attention and actions — to help someone else.',
     doing: 'Children brainstorm and practice real ways to help others, at school and at home.',
   },
@@ -156,18 +158,16 @@ export const weeks = [
     n: 8,
     theme: 'Celebration',
     title: 'Look How We’ve Grown!',
-    icon: 'tabler:flower',
-    garden: 'Full Bloom & New Seeds',
+    icon: 'tabler:confetti',
     text: 'Looking back on the journey, recognizing how we’ve grown and choosing how we want to keep growing.',
-    doing: 'A joyful celebration of growth, the finished garden, and each child’s Hearts in Action Certificate.',
+    doing: 'A joyful celebration of growth, and each child’s CHALLO Kids Club certificate.',
   },
 ];
 
 // ───────────────────────── GALLERY ─────────────────────────
 // EDIT: to use real photos, drop images in /public/gallery/ and set `src: '/gallery/your-photo.jpg'`.
-// Tiles without a `src` render as illustrated placeholders.
-export const galleryNote = 'Drawn illustrations for now — photos from our first group will take their place.';
-export type GalleryArt = 'seed' | 'book' | 'garden' | 'craft' | 'gift' | 'certificate';
+// Tiles without a `src` render as illustrations.
+export type GalleryArt = 'book' | 'craft' | 'certificate';
 export const gallery: Array<{
   title: string;
   caption: string;
@@ -177,34 +177,16 @@ export const gallery: Array<{
   alt?: string;
 }> = [
   {
-    title: 'Plant a Little Gratitude',
-    caption: 'Every child plants a seed to grow at home.',
-    art: 'seed',
-    tone: 'green',
-  },
-  {
     title: 'Stories & Conversations',
     caption: 'Age-appropriate stories spark big questions.',
     art: 'book',
     tone: 'rose',
   },
   {
-    title: 'The Hearts in Action Garden',
-    caption: 'A portable garden that grows every week.',
-    art: 'garden',
-    tone: 'cream',
-  },
-  {
-    title: 'Hands-on Creating',
-    caption: 'Drawing, writing and making together.',
+    title: 'Hands-on Activities',
+    caption: 'Activity pages collected into a booklet to keep.',
     art: 'craft',
     tone: 'green',
-  },
-  {
-    title: 'Take-Home Keepsakes',
-    caption: 'A simple keepsake or experience every week.',
-    art: 'gift',
-    tone: 'rose',
   },
   {
     title: 'Certificate & Celebration',
@@ -215,15 +197,18 @@ export const gallery: Array<{
 ];
 
 // ───────────────────────── FAQ ─────────────────────────
-// EDIT: review the policy answers (refunds, sickness, missed sessions) so they match what you actually offer.
 export const faqs = [
   {
     q: 'Is this right for my child’s grade or skill level?',
-    a: 'Hearts in Action is designed for children in Grades 1–3. There are no prerequisites — no reading level, experience or special skills needed. Activities flex naturally, so a Grade 1 child can draw and share while a Grade 3 child writes more, and everyone takes part together.',
+    a: 'CHALLO Kids Club is designed for children in Grades 1–3. There are no prerequisites — no reading level, experience or special skills needed. Activities flex naturally, so a Grade 1 child can draw and share while a Grade 3 child writes more, and everyone takes part together.',
   },
   {
     q: 'What does my child need to bring?',
-    a: 'Nothing — complete program materials are included. We suggest comfortable clothes that can get a little messy, since children plant a real seed in the very first session.',
+    a: program.materials,
+  },
+  {
+    q: 'Is there homework?',
+    a: 'No homework. Children take home simple reminder cards to share their learning with their families, along with optional everyday ways to practise the values — entirely up to you.',
   },
   {
     q: 'How big are the groups?',
@@ -231,27 +216,19 @@ export const faqs = [
   },
   {
     q: 'What if my child has allergies or medical needs?',
-    a: 'Please tell us on the registration form. We keep every child’s allergy and medical notes on hand during sessions, and we’ll follow up with you directly if we have any questions.',
+    a: 'We’ll ask about allergies and medical needs when your child is enrolled, and keep those notes on hand during sessions.',
   },
   {
     q: 'How do drop-off and pick-up work?',
     a: program.dropOff,
   },
   {
-    q: 'What is your cancellation and refund policy?',
-    a: 'If you cancel before the first session, we’ll refund your payment in full. Once the program has begun, please reach out — we’ll do our best to work with you.',
-  },
-  {
     q: 'What if my child is sick or misses a session?',
-    a: 'Please keep your child home when unwell. If a session is missed, let us know and we’ll send home that week’s take-home card and Hearts in Action Challenge so your child can stay connected to the group.',
+    a: 'Please keep your child home when unwell. If a session is missed, let us know and we’ll send home that week’s take-home reminder card so your child can stay connected to the group.',
   },
   {
     q: 'What happens in an emergency?',
-    a: 'We collect an emergency contact for every child at registration and keep it with us at every session. You will be contacted right away if anything comes up.',
-  },
-  {
-    q: 'How do I pay, and when is my spot confirmed?',
-    a: 'Pay by credit card for instant confirmation, or by Interac e-Transfer. Your spot is held temporarily while we verify an e-Transfer, and we confirm it by email as soon as it arrives.',
+    a: 'We’ll collect an emergency contact for every child when they’re enrolled and keep it with us at every session. You will be contacted right away if anything comes up.',
   },
 ];
 
@@ -259,11 +236,9 @@ export const faqs = [
 // Placeholder values that must be replaced before the site goes live (used for a console warning at build/dev time).
 export const placeholderWarnings = (): string[] => {
   const warnings: string[] = [];
-  if (integrations.stripePaymentLink.includes('placeholder')) warnings.push('integrations.stripePaymentLink');
   if (integrations.web3formsAccessKey.startsWith('YOUR_')) warnings.push('integrations.web3formsAccessKey');
-  if (/XXX/.test(program.contactPhone)) warnings.push('program.contactPhone');
-  if (/^test@|@example\./.test(program.contactEmail)) warnings.push('program.contactEmail');
-  if (/@example\./.test(etransfer.email)) warnings.push('etransfer.email');
+  if (!program.contactPhone) warnings.push('program.contactPhone');
+  if (!program.contactEmail) warnings.push('program.contactEmail');
   return warnings;
 };
 
@@ -272,7 +247,7 @@ export const placeholderWarnings = (): string[] => {
 export const legal = {
   effectiveDate: 'October 8, 2026',
   // Name the policies use for "we". Replace with your registered business name if you have one.
-  entity: 'Hearts in Action',
+  entity: 'CHALLO Kids Club',
   operator: educator.name,
   // How long medical, allergy and emergency-contact details are kept after the program ends.
   medicalRetentionMonths: 12,

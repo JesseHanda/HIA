@@ -1,14 +1,25 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import LegalDocument from '~/components/hia/LegalDocument.astro';
-import { program, legal, etransfer } from '~/data/program';
+import { program, legal } from '~/data/program';
 
 const metadata = {
   title: 'Privacy Policy',
   description: `How ${legal.entity} collects, uses, protects and shares personal information about families.`,
 };
 
-const email = `<a href="mailto:${program.contactEmail}">${program.contactEmail}</a>`;
+const email = program.contactEmail
+  ? `<a href="mailto:${program.contactEmail}">${program.contactEmail}</a>`
+  : 'the enquiry form on our website';
+const contactLines = [
+  program.contactEmail && `Email: ${email}`,
+  program.contactPhone && `Phone: ${program.contactPhone}`,
+]
+  .filter(Boolean)
+  .join('<br />');
+const contactBlock = `<p>${legal.entity}<br />${program.city}${contactLines ? '<br />' + contactLines : ''}</p>${
+  program.contactEmail ? '' : '<p>Please contact us through ' + email + '.</p>'
+}`;
 
 // DRAFT for legal review. Written to follow Canada's PIPEDA fair-information principles; values come from src/data/program.ts.
 const sections = [
@@ -16,16 +27,17 @@ const sections = [
     title: 'Who we are',
     body: `
       <p>${legal.entity} is an ${program.sessions}-week character enrichment program for children in ${program.grades}, run in ${program.city} by ${legal.operator}. In this policy, “we”, “us” and “our” mean ${legal.entity}, and “you” means the parent or legal guardian who visits this website or registers a child.</p>
-      <p>This policy explains what personal information we collect, why we collect it, who we share it with, how long we keep it, and the choices you have. By submitting a registration you confirm that you have read it.</p>`,
+      <p>This policy explains what personal information we collect, why we collect it, who we share it with, how long we keep it, and the choices you have. By submitting an enquiry or registration you confirm that you have read it.</p>`,
   },
   {
     title: 'Accountability and contact',
     body: `
-      <p>${legal.operator} is responsible for personal information under our control and acts as our privacy contact. Questions, requests and complaints can be sent to ${email}, or by phone to ${program.contactPhone}.</p>`,
+      <p>${legal.operator} is responsible for personal information under our control and acts as our privacy contact. Questions, requests and complaints can be sent via ${email}.${program.contactPhone ? ` You can also phone ${program.contactPhone}.` : ''}</p>`,
   },
   {
     title: 'What we collect',
     body: `
+      <p><strong>When you send an enquiry:</strong> your name, email address, phone number and school or organization (if you give them), and the message you write.</p>
       <p><strong>About your child</strong> (provided by you at registration):</p>
       <ul>
         <li>full name, grade and, if you choose to give it, age;</li>
@@ -46,7 +58,7 @@ const sections = [
     body: `
       <p>We use personal information only for the following purposes:</p>
       <ul>
-        <li>to process your registration, confirm your child’s spot and take payment;</li>
+        <li>to respond to your enquiry, to process your registration, confirm your child’s spot and take payment;</li>
         <li>to communicate with you about dates, sessions, drop-off and pick-up, and changes to the program;</li>
         <li>to keep your child safe and well, including acting on allergy and medical information;</li>
         <li>to contact you or your emergency contact if there is an illness, injury or other urgent matter;</li>
@@ -58,15 +70,15 @@ const sections = [
   {
     title: 'Consent',
     body: `
-      <p>By completing the registration form and ticking the consent box, you give your consent, as your child’s parent or legal guardian, to the collection, use and disclosure of the information described in this policy. This includes your child’s health information, which is sensitive and which we collect only so that we can care for your child during sessions.</p>
-      <p>You may withdraw your consent at any time, subject to legal or contractual restrictions, by contacting us at ${email}. Withdrawing consent may mean we can no longer offer your child a place in the program, because some information is essential to supervise children safely.</p>`,
+      <p>By submitting an enquiry form or completing the registration form and ticking the consent box, you give your consent, as your child’s parent or legal guardian, to the collection, use and disclosure of the information described in this policy. This includes your child’s health information, which is sensitive and which we collect only so that we can care for your child during sessions.</p>
+      <p>You may withdraw your consent at any time, subject to legal or contractual restrictions, by contacting us via ${email}. Withdrawing consent may mean we can no longer offer your child a place in the program, because some information is essential to supervise children safely.</p>`,
   },
   {
     title: 'Who we share it with',
     body: `
       <p>We do not sell, rent or trade personal information. We share it only as follows:</p>
       <ul>
-        <li><strong>Service providers</strong> who help us operate the program, acting on our instructions: Web3Forms (delivers registration form submissions to us by email), Stripe (card payments), our email provider, and Cloudflare (website hosting and delivery).</li>
+        <li><strong>Service providers</strong> who help us operate the program, acting on our instructions: Web3Forms (delivers enquiry and registration form submissions to us by email), Stripe (card payments), our email provider, and Cloudflare (website hosting and delivery).</li>
         <li><strong>Emergency responders and medical professionals</strong>, if your child needs urgent care, limited to what is needed to help.</li>
         <li><strong>Authorities and advisers</strong>, where required by law or a court order, or to protect the safety of a child, and to our professional advisers (such as accountants) under duties of confidentiality.</li>
       </ul>
@@ -90,7 +102,7 @@ const sections = [
   {
     title: 'How we protect it',
     body: `
-      <p>We use reasonable safeguards appropriate to how sensitive the information is. This website is delivered over an encrypted (HTTPS) connection. Registration details are sent directly to a private inbox, and access is limited to the people who need it to run the program. Health and emergency-contact details needed during sessions are kept with us at the session and not left unattended.</p>
+      <p>We use reasonable safeguards appropriate to how sensitive the information is. This website is delivered over an encrypted (HTTPS) connection. Enquiry and registration details are sent directly to a private inbox, and access is limited to the people who need it to run the program. Health and emergency-contact details needed during sessions are kept with us at the session and not left unattended.</p>
       <p>No method of transmission or storage is perfectly secure. If a breach creates a real risk of significant harm to you or your child, we will notify you and report it to the Privacy Commissioner of Canada as the law requires.</p>`,
   },
   {
@@ -108,7 +120,7 @@ const sections = [
         <li>correct information that is inaccurate or incomplete;</li>
         <li>delete information we no longer need, or withdraw your consent as described above.</li>
       </ul>
-      <p>Email ${email}. We may need to confirm who you are first, and we will respond within ${legal.responseDays} days. We will tell you if we cannot fulfil a request in full and explain why.</p>
+      <p>Contact us via ${email}. We may need to confirm who you are first, and we will respond within ${legal.responseDays} days. We will tell you if we cannot fulfil a request in full and explain why.</p>
       <p>If you are not satisfied with our response, you may complain to the <a href="https://www.priv.gc.ca" target="_blank" rel="noopener noreferrer">Office of the Privacy Commissioner of Canada</a>.</p>`,
   },
   {
@@ -124,8 +136,8 @@ const sections = [
   {
     title: 'Contact us',
     body: `
-      <p>${legal.entity}<br />${program.city}<br />Email: ${email}<br />Phone: ${program.contactPhone}</p>
-      <p>Payments by e-Transfer are received at ${etransfer.email}; please send privacy requests to the address above rather than to the payment address.</p>`,
+      ${contactBlock}
+      <p>Please send privacy requests to the contact above rather than to any payment address we give you.</p>`,
   },
 ];
 ---

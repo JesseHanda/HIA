@@ -1,11 +1,5 @@
 ---
-import { Icon } from 'astro-icon/components';
 import { SITE } from 'astrowind:config';
 ---
 
-<span class="flex items-center gap-2 font-heading font-bold text-xl text-heading whitespace-nowrap">
-  <span class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-primary text-white">
-    <Icon name="tabler:heart-filled" class="h-5 w-5" />
-  </span>
-  {SITE?.name}
-</span>
+<img src="/challo-wordmark.svg" alt={SITE?.name} width="1500" height="530" class="h-11 w-auto sm:h-12" />

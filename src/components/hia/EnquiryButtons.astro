@@ -1,0 +1,39 @@
+---
+import Button from '~/components/ui/Button.astro';
+
+export interface Props {
+  /** `light` sits on the saturated red bands; `default` on the page background. */
+  tone?: 'default' | 'light';
+  class?: string;
+  heroCta?: boolean;
+}
+
+const { tone = 'default', class: className = '', heroCta = false } = Astro.props;
+
+const primary =
+  tone === 'light'
+    ? 'on-rose border-white bg-white px-8 py-4 text-lg font-bold !text-rose-700 shadow-xl hover:!bg-rose-50'
+    : 'px-8 py-4 text-lg shadow-lg shadow-rose-500/25';
+const secondary =
+  tone === 'light'
+    ? 'on-rose border-white bg-transparent px-8 py-4 text-lg font-semibold !text-white hover:!bg-white/10'
+    : 'px-8 py-4 text-lg';
+---
+
+<div class:list={['flex flex-col gap-3 sm:flex-row', className]}>
+  <Button
+    variant="primary"
+    text="Bring CHALLO to Your School"
+    href="#upcoming"
+    class:list={['w-full sm:w-auto', primary]}
+    data-enquire="school"
+    {...heroCta ? { 'data-hero-cta': '' } : {}}
+  />
+  <Button
+    variant="secondary"
+    text="Ask About Upcoming Programs"
+    href="#upcoming"
+    class:list={['w-full sm:w-auto', secondary]}
+    data-enquire="parent"
+  />
+</div>

@@ -1,9 +1,8 @@
 ---
 import { Icon } from 'astro-icon/components';
-import Button from '~/components/ui/Button.astro';
 import VideoShowcase from './VideoShowcase.astro';
-import GardenScene from './GardenScene.astro';
-import { program, pricing, safety, educator, integrations } from '~/data/program';
+import EnquiryButtons from './EnquiryButtons.astro';
+import { program, safety, educator, integrations } from '~/data/program';
 
 const hasVideo = Boolean(integrations.videoEmbedUrl);
 
@@ -11,45 +10,33 @@ const trust = [
   { icon: 'tabler:users-group', label: `Small groups, max ${program.maxGroupSize}` },
   { icon: 'tabler:first-aid-kit', label: 'Allergy notes kept on hand' },
   { icon: 'tabler:school', label: educator.badge },
-  { icon: 'tabler:package', label: 'All materials included' },
+  { icon: 'tabler:package', label: 'All materials provided' },
   ...(safety.backgroundChecked ? [{ icon: 'tabler:shield-check', label: 'Background-checked facilitator' }] : []),
 ];
 ---
 
 <section class="relative overflow-hidden not-prose">
-  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-rose-50 via-amber-50/50 to-transparent" aria-hidden="true">
-  </div>
+  <div class="absolute inset-0 -z-10 bg-gradient-to-b from-rose-50 via-white to-transparent" aria-hidden="true"></div>
 
   <div class="mx-auto grid max-w-7xl items-center gap-10 px-4 py-10 md:px-6 md:py-14 lg:grid-cols-2 lg:gap-14 lg:py-20">
     <div class="text-center lg:text-left">
+      <p class="text-sm font-bold uppercase tracking-wide text-secondary md:text-base">
+        {program.name} · {program.descriptor}
+      </p>
       <h1
-        class="font-heading text-4xl font-extrabold leading-[1.1] tracking-tight text-heading text-balance md:text-5xl lg:text-6xl"
+        class="mt-3 font-heading text-4xl font-extrabold leading-[1.1] tracking-tight text-heading text-balance md:text-5xl lg:text-6xl"
       >
-        Help your child grow a kind heart — and <span class="text-primary">put it into action.</span>
+        Instilling kindness, <span class="text-primary">one heart at a time.</span>
       </h1>
       <p class="mt-4 text-base font-semibold text-secondary md:text-lg">
-        {program.sessions}-week program · {program.grades} · {program.city}
+        {program.sessions}-week program · {program.grades}
       </p>
       <p class="mx-auto mt-4 max-w-xl text-lg text-muted text-pretty lg:mx-0 md:text-xl">
-        In {program.sessions} weekly sessions, children plant seeds, build a living garden and practise gratitude, kindness,
-        empathy and courage — so they learn that even small actions make a difference.
+        {program.intro}
       </p>
 
-      <div class="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center lg:justify-start">
-        <Button
-          variant="primary"
-          text="Register Now"
-          href="#register"
-          icon="tabler:arrow-right"
-          class="w-full px-8 py-4 text-lg shadow-lg shadow-rose-500/25 sm:w-auto"
-          data-open-register
-          data-hero-cta
-        />
-        <Button text="See the 8-week journey" href="#curriculum" class="w-full sm:w-auto" />
-      </div>
-      <p class="mt-4 text-sm text-muted">
-        {pricing.base} + HST per child ({pricing.total} total) · Limited to {program.maxGroupSize} children per group
-      </p>
+      <EnquiryButtons class="mt-8 items-center sm:justify-center lg:justify-start" heroCta />
+      <p class="mt-4 text-sm font-medium text-muted">{program.upcomingNote}</p>
 
       <ul
         class="mx-auto mt-8 grid max-w-xl grid-cols-1 gap-x-6 gap-y-2.5 text-left text-[0.95rem] font-medium text-default min-[420px]:grid-cols-2 lg:mx-0"
@@ -71,17 +58,17 @@ const trust = [
         hasVideo ? (
           <VideoShowcase />
         ) : (
-          <div class="aspect-[4/3] w-full overflow-hidden rounded-[2rem] bg-gradient-to-br from-rose-50 via-amber-50 to-green-50 shadow-xl shadow-rose-900/10 ring-1 ring-rose-900/10">
-            <GardenScene />
+          <div class="flex aspect-[4/3] w-full items-center justify-center rounded-[2rem] bg-white p-6 shadow-xl shadow-rose-900/10 ring-1 ring-rose-900/10 sm:p-10">
+            <img
+              src="/challo-logo.svg"
+              alt="CHALLO Kids Club — Character Enrichment Program. Instilling kindness, one heart at a time."
+              width="1785"
+              height="810"
+              class="h-auto w-full"
+            />
           </div>
         )
       }
-      <div
-        class="absolute -bottom-5 left-4 rotate-[-2deg] rounded-2xl bg-white px-4 py-3 shadow-lg shadow-rose-900/10 ring-1 ring-black/5 sm:left-6"
-      >
-        <p class="text-xs font-bold uppercase tracking-wide text-accent">The big idea</p>
-        <p class="font-heading text-lg font-bold text-heading">The world is bigger than me.</p>
-      </div>
     </div>
   </div>
 </section>

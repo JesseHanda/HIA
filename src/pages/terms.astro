@@ -1,14 +1,26 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 import LegalDocument from '~/components/hia/LegalDocument.astro';
-import { program, pricing, legal, etransfer } from '~/data/program';
+import { program, legal } from '~/data/program';
 
 const metadata = {
   title: 'Program Terms',
-  description: `The terms that apply when you register a child for ${legal.entity}: fees, cancellations, health and safety, and more.`,
+  description: `The terms that apply when your child takes part in ${legal.entity}: fees, cancellations, health and safety, and more.`,
 };
 
-const email = `<a href="mailto:${program.contactEmail}">${program.contactEmail}</a>`;
+const email = program.contactEmail
+  ? `<a href="mailto:${program.contactEmail}">${program.contactEmail}</a>`
+  : 'the enquiry form on our website';
+const contactLines = [
+  program.contactEmail && `Email: ${email}`,
+  program.contactPhone && `Phone: ${program.contactPhone}`,
+]
+  .filter(Boolean)
+  .join('<br />');
+const contactBlock = `<p>${legal.entity}<br />${program.city}${contactLines ? '<br />' + contactLines : ''}</p>${
+  program.contactEmail ? '' : '<p>Please contact us through ' + email + '.</p>'
+}`;
+const holdHours = 48; // how long a spot is held while an Interac e-Transfer is verified
 
 // DRAFT for legal review. Business rules mirror the FAQ and src/data/program.ts; edit both together.
 const sections = [
@@ -21,18 +33,18 @@ const sections = [
   {
     title: 'The program',
     body: `
-      <p>The program is a character enrichment program for children in ${program.grades}. It runs for ${program.sessions} weekly sessions of ${program.sessionLength} each, with up to ${program.maxGroupSize} children per group. Sessions use stories, conversation, hands-on activities and a group garden project to explore gratitude, kindness, empathy, friendship, respect, courage and helping others.</p>
-      <p>Dates, times and the venue are confirmed to registered families by email. We may adjust the schedule or venue where reasonably necessary and will give you as much notice as we can.</p>
+      <p>The program is a character enrichment program for children in ${program.grades}. It runs for ${program.sessions} weekly sessions of ${program.sessionLength} each, with up to ${program.maxGroupSize} children per group. Sessions use stories, conversation, hands-on activities and reflection to explore gratitude, kindness, empathy, friendship, respect, courage and helping others.</p>
+      <p>Dates, times and locations are announced separately and confirmed to registered families by email. Before a program opens for registration, enquiries do not reserve a place or create any obligation for you or for us. We may adjust the schedule or venue where reasonably necessary and will give you as much notice as we can.</p>
       <p>The program is educational enrichment. It is not counselling, therapy, childcare or medical advice, and it does not replace support from a qualified professional if your child needs it. We cannot promise any particular outcome for an individual child.</p>`,
   },
   {
     title: 'Registration and fees',
     body: `
-      <p>The fee is <strong>${pricing.base} plus HST per child</strong>, which is <strong>${pricing.total} ${pricing.currency}</strong> in total, for all ${program.sessions} sessions. It includes program materials, the weekly take-home keepsake or experience, your child’s part in the group garden and a certificate of completion.</p>
+      <p>The fee for each program, including applicable HST, is published or confirmed to you before you register, and covers all ${program.sessions} sessions. It includes program materials, an activity booklet, take-home reminder cards and a certificate of completion. The fee shown at the time you register applies to that registration.</p>
       <p>Your spot is not reserved until you have submitted the registration form and either paid by credit card or, if you choose Interac e-Transfer, we have received your transfer.</p>
       <ul>
         <li><strong>Credit card:</strong> paid through Stripe’s secure checkout. Your spot is confirmed as soon as payment completes.</li>
-        <li><strong>Interac e-Transfer:</strong> sent to ${etransfer.email}. We hold your spot for ${etransfer.holdHours} hours while we verify the transfer, and confirm by email once it arrives. If we do not receive it within that time, the spot may be released to another family.</li>
+        <li><strong>Interac e-Transfer:</strong> sent to the address we give you when you register. We hold your spot for ${holdHours} hours while we verify the transfer, and confirm by email once it arrives. If we do not receive it within that time, the spot may be released to another family.</li>
       </ul>
       <p>You agree to give accurate information and to tell us promptly if it changes. Group sizes are limited, so places are offered in the order registrations are completed.</p>`,
   },
@@ -40,14 +52,14 @@ const sections = [
     title: 'Cancellations and refunds',
     body: `
       <p><strong>Before the first session</strong> you may cancel and we will refund your payment in full.</p>
-      <p><strong>After the program has begun</strong>, refunds are at our discretion because your child’s place and materials are committed. Please contact us at ${email} if something has changed, and we will do our best to work with you.</p>
+      <p><strong>After the program has begun</strong>, refunds are at our discretion because your child’s place and materials are committed. Please contact us via ${email} if something has changed, and we will do our best to work with you.</p>
       <p><strong>If we cancel or cannot deliver a session,</strong> we will reschedule it. If we cannot, we will refund the fee for the sessions not delivered, calculated in equal shares across the ${program.sessions} sessions.</p>
       <p>Approved refunds are returned to the original payment method, or by Interac e-Transfer if that is how you paid, within a reasonable time.</p>`,
   },
   {
     title: 'Missed sessions',
     body: `
-      <p>If your child is unwell or otherwise misses a session, please let us know. We will send home that week’s take-home card and Hearts in Action Challenge so your child can stay connected to the group. We cannot guarantee make-up sessions.</p>`,
+      <p>If your child is unwell or otherwise misses a session, please let us know. We will send home that week’s take-home reminder card so your child can stay connected to the group. We cannot guarantee make-up sessions.</p>`,
   },
   {
     title: 'Health, safety and supervision',
@@ -68,7 +80,7 @@ const sections = [
   {
     title: 'Photos and media',
     body: `
-      <p>We will not take, use or share photos, video or recordings that identify a child without the permission of that child’s parent or guardian. Where you give permission, you may withdraw it at any time by emailing ${email}, and we will stop using the material going forward.</p>`,
+      <p>We will not take, use or share photos, video or recordings that identify a child without the permission of that child’s parent or guardian. Where you give permission, you may withdraw it at any time by contacting us via ${email}, and we will stop using the material going forward.</p>`,
   },
   {
     title: 'Risk and liability',
@@ -101,7 +113,7 @@ const sections = [
   {
     title: 'Contact us',
     body: `
-      <p>${legal.entity}<br />${program.city}<br />Email: ${email}<br />Phone: ${program.contactPhone}</p>`,
+      ${contactBlock}`,
   },
 ];
 ---

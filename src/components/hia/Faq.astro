@@ -38,10 +38,29 @@ const faqSchema = {
   </div>
 
   <p class="mt-8 text-center text-muted">
-    Still wondering about something? Email
-    <a class="font-semibold text-secondary hover:underline" href={`mailto:${program.contactEmail}`}>
-      {program.contactEmail}
-    </a>
-    or call {program.contactPhone}.
+    Still wondering about something?{' '}
+    {
+      program.contactEmail || program.contactPhone ? (
+        <>
+          {program.contactEmail && (
+            <>
+              Email{' '}
+              <a class="font-semibold text-secondary hover:underline" href={`mailto:${program.contactEmail}`}>
+                {program.contactEmail}
+              </a>
+            </>
+          )}
+          {program.contactEmail && program.contactPhone && ' or '}
+          {program.contactPhone && <>call {program.contactPhone}</>}.
+        </>
+      ) : (
+        <>
+          <a class="font-semibold text-secondary hover:underline" href="#upcoming" data-enquire="parent">
+            Send us an enquiry
+          </a>
+          .
+        </>
+      )
+    }
   </p>
 </WidgetWrapper>

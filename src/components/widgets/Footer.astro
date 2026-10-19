@@ -8,6 +8,7 @@ interface Link {
   href?: string;
   ariaLabel?: string;
   icon?: string;
+  'data-enquire'?: string;
 }
 
 interface Links {
@@ -35,8 +36,8 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
     <div class="grid grid-cols-12 gap-4 gap-y-8 sm:gap-8 py-8 md:py-12">
       <div class="col-span-12 lg:col-span-4">
         <div class="mb-2">
-          <a class="inline-block font-heading text-2xl font-extrabold text-heading" href={getHomePermalink()}>
-            {SITE?.name}
+          <a class="inline-block" href={getHomePermalink()}>
+            <img src="/challo-logo.svg" alt={SITE?.name} width="1500" height="760" class="h-24 w-auto" />
           </a>
         </div>
         {tagline && <p class="mb-3 max-w-xs text-muted">{tagline}</p>}
@@ -61,12 +62,13 @@ const { socialLinks = [], secondaryLinks = [], links = [], footNote = '', theme 
             <div class="dark:text-gray-300 font-medium mb-2">{title}</div>
             {links && Array.isArray(links) && links.length > 0 && (
               <ul class="text-sm">
-                {links.map(({ text, href, ariaLabel }) => (
+                {links.map(({ text, href, ariaLabel, 'data-enquire': enquire }) => (
                   <li>
                     <a
                       class="inline-flex min-h-11 items-center text-muted hover:text-gray-700 hover:underline dark:text-gray-400 transition duration-150 ease-in-out"
                       href={href}
                       aria-label={ariaLabel}
+                      {...(enquire ? { 'data-enquire': enquire } : {})}
                     >
                       <Fragment set:html={text} />
                     </a>

@@ -1,5 +1,5 @@
 site:
-  name: Hearts in Action
+  name: CHALLO Kids Club
   # Update to your custom domain when you add one
   site: 'https://hia-two.vercel.app'
   base: '/'
@@ -7,14 +7,14 @@ site:
 
 metadata:
   title:
-    default: Hearts in Action — 8-Week Character Program for Grades 1–3
-    template: '%s — Hearts in Action'
-  description: An 8-week character enrichment program for Grades 1–3 in Burlington, Ontario. Small groups of up to 15 children explore gratitude, kindness, empathy and courage through stories, hands-on activities and a growing garden.
+    default: CHALLO Kids Club — Character Enrichment Program for Grades 1–3
+    template: '%s — CHALLO Kids Club'
+  description: CHALLO Kids Club is an eight-week character enrichment program for children in Grades 1–3. Through stories, conversations and hands-on activities, children practise gratitude, kindness, empathy, friendship, respect, courage and helping others.
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: Hearts in Action
+    site_name: CHALLO Kids Club
     images:
       - url: '~/assets/images/default.png'
         width: 1200

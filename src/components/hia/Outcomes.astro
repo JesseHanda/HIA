@@ -2,31 +2,24 @@
 import { Icon } from 'astro-icon/components';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Headline from '~/components/ui/Headline.astro';
-
-const steps = [
-  { word: 'Notice', text: 'what is happening around them', icon: 'tabler:eye' },
-  { word: 'Reflect', text: 'on how others may feel', icon: 'tabler:bulb' },
-  { word: 'Choose', text: 'how they want to respond', icon: 'tabler:route' },
-  { word: 'Act', text: 'in a positive, meaningful way', icon: 'tabler:heart-handshake' },
-  { word: 'Grow', text: 'by practising every day', icon: 'tabler:seeding' },
-];
+import { sessionSteps as steps } from '~/data/program';
 
 const outcomes = [
   'Notices the good — and the people who make their day brighter',
   'Pauses to ask, “How might someone else feel?”',
   'Finds the courage to take the next brave step',
   'Chooses kind words and kind actions — even when it’s hard',
-  'Comes home with real keepsakes and a challenge to try with family',
+  'Shares what they’ve learned with family through simple take-home reminder cards',
 ];
 ---
 
 <WidgetWrapper id="outcomes" containerClass="max-w-6xl">
   <Headline
     title="Character isn’t just taught here — it’s practised."
-    subtitle="Every session is built around one simple rhythm, so kind thinking becomes a kind habit."
+    subtitle="Every session follows the same four steps, so kind thinking becomes a kind habit."
   />
 
-  <ol class="grid gap-0 lg:grid-cols-5 lg:gap-4">
+  <ol class="grid gap-0 lg:grid-cols-4 lg:gap-4">
     {
       steps.map((s, i) => (
         <li
@@ -41,14 +34,44 @@ const outcomes = [
           </span>
           <div class="lg:mt-4">
             <p class="font-heading text-xl font-bold tracking-wide text-heading">{s.word}</p>
-            <p class="text-sm text-muted lg:mx-auto lg:max-w-[12rem]">{s.text}</p>
+            <p class="text-sm text-muted lg:mx-auto lg:max-w-[14rem]">{s.text}</p>
           </div>
         </li>
       ))
     }
   </ol>
 
-  <div class="mt-10 rounded-3xl bg-green-50 p-6 ring-1 ring-green-200 md:mt-14 md:p-9">
+  <div class="mt-10 rounded-3xl bg-rose-50 p-6 ring-1 ring-rose-200 md:mt-14 md:p-9">
+    <h3 class="font-heading text-xl font-bold text-heading md:text-2xl">
+      Activity pages, reminder cards and a certificate
+    </h3>
+    <ul class="mt-4 space-y-2.5 text-default">
+      <li class="flex items-start gap-3">
+        <Icon name="tabler:notebook" class="mt-0.5 h-5 w-5 flex-none text-primary" />
+        <span>Children complete age-appropriate activity pages, collected into a booklet.</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <Icon name="tabler:cards" class="mt-0.5 h-5 w-5 flex-none text-primary" />
+        <span>Children receive simple take-home reminder cards to share their learning with their families.</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <Icon name="tabler:certificate" class="mt-0.5 h-5 w-5 flex-none text-primary" />
+        <span>Every child receives a certificate at the end of the program.</span>
+      </li>
+      <li class="flex items-start gap-3">
+        <Icon name="tabler:home-heart" class="mt-0.5 h-5 w-5 flex-none text-primary" />
+        <span>Families get optional everyday ways to practise the values together.</span>
+      </li>
+    </ul>
+    <p
+      class="mt-5 inline-flex items-center gap-2 rounded-full bg-white px-4 py-1.5 font-heading text-lg font-bold text-primary ring-1 ring-rose-200"
+    >
+      <Icon name="tabler:ban" class="h-5 w-5" />
+      No homework
+    </p>
+  </div>
+
+  <div class="mt-6 rounded-3xl bg-green-50 p-6 ring-1 ring-green-200 md:p-9">
     <h3 class="font-heading text-xl font-bold text-heading md:text-2xl">Over eight weeks, your child…</h3>
     <ul class="mt-5 grid gap-x-10 gap-y-3.5 md:grid-cols-2">
       {
