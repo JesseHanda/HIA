@@ -10,30 +10,32 @@ export interface Props {
 
 const { tone = 'default', class: className = '', heroCta = false } = Astro.props;
 
+// Labels never break inside a pill: when the pair runs out of room it wraps to a second row instead.
+const base = 'w-full whitespace-nowrap px-7 py-4 text-lg sm:w-auto';
 const primary =
   tone === 'light'
-    ? 'on-rose border-white bg-white px-8 py-4 text-lg font-bold !text-rose-700 shadow-xl hover:!bg-rose-50'
-    : 'px-8 py-4 text-lg shadow-lg shadow-rose-500/25';
+    ? 'on-rose border-white bg-white font-bold !text-rose-700 shadow-xl hover:!bg-rose-50'
+    : 'shadow-lg shadow-rose-500/25';
 const secondary =
   tone === 'light'
-    ? 'on-rose border-white bg-transparent px-8 py-4 text-lg font-semibold !text-white hover:!bg-white/10'
-    : 'px-8 py-4 text-lg';
+    ? 'on-rose border-white bg-transparent font-semibold !text-white hover:!bg-white/10'
+    : 'font-semibold';
 ---
 
-<div class:list={['flex flex-col gap-3 sm:flex-row', className]}>
+<div class:list={['flex flex-col gap-3 sm:flex-row sm:flex-wrap', className]}>
   <Button
     variant="primary"
     text="Bring CHALLO to Your School"
     href="#upcoming"
-    class:list={['w-full sm:w-auto', primary]}
+    class:list={[base, primary]}
     data-enquire="school"
     {...heroCta ? { 'data-hero-cta': '' } : {}}
   />
   <Button
     variant="secondary"
-    text="Ask About Upcoming Programs"
+    text="Get Program Updates"
     href="#upcoming"
-    class:list={['w-full sm:w-auto', secondary]}
+    class:list={[base, secondary]}
     data-enquire="parent"
   />
 </div>

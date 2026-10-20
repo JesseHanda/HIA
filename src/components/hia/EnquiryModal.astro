@@ -17,10 +17,11 @@ interface Field {
   placeholder?: string;
 }
 
-const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Field[] }> = [
+const forms: Array<{ audience: 'school' | 'parent'; heading: string; switchLabel: string; fields: Field[] }> = [
   {
     audience: 'school',
     heading: 'Bring CHALLO to Your School',
+    switchLabel: 'For my school',
     fields: [
       {
         name: 'school_name',
@@ -61,7 +62,8 @@ const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Fie
   },
   {
     audience: 'parent',
-    heading: 'Ask About Upcoming Programs',
+    heading: 'Get Program Updates',
+    switchLabel: 'For my child',
     fields: [
       {
         name: 'parent_name',
@@ -106,13 +108,25 @@ const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Fie
     <div class="flex items-start justify-between gap-4 border-b border-gray-200 bg-white px-5 py-4 sm:px-8">
       <div>
         <h2 id="enquiry-title" class="font-heading text-2xl font-extrabold text-heading">Enquire About CHALLO</h2>
-        {
-          forms.map((f) => (
-            <p class="text-sm text-muted" data-enquiry-sub={f.audience} hidden>
-              {f.heading}
-            </p>
-          ))
-        }
+        <div
+          data-enquiry-switch
+          role="group"
+          aria-label="Who is this enquiry for?"
+          class="mt-3 inline-flex rounded-full bg-rose-50 p-1 ring-1 ring-rose-200"
+        >
+          {
+            [...forms].reverse().map((f) => (
+              <button
+                type="button"
+                data-enquiry-audience={f.audience}
+                aria-pressed="false"
+                class="min-h-11 rounded-full px-4 text-sm font-semibold text-muted transition hover:text-heading aria-pressed:bg-white aria-pressed:text-secondary aria-pressed:shadow-sm aria-pressed:ring-1 aria-pressed:ring-rose-200"
+              >
+                {f.switchLabel}
+              </button>
+            ))
+          }
+        </div>
       </div>
       <button
         type="button"
@@ -129,6 +143,7 @@ const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Fie
         forms.map((f) => (
           <form
             data-enquiry-form={f.audience}
+            aria-label={f.heading}
             class="space-y-4"
             novalidate
             hidden
@@ -232,14 +247,16 @@ const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Fie
 
   if (dialog) {
     const forms = Array.from(dialog.querySelectorAll<HTMLFormElement>('[data-enquiry-form]'));
-    const subs = Array.from(dialog.querySelectorAll<HTMLElement>('[data-enquiry-sub]'));
+    const switcher = dialog.querySelector<HTMLElement>('[data-enquiry-switch]') as HTMLElement;
+    const audiences = Array.from(dialog.querySelectorAll<HTMLButtonElement>('[data-enquiry-audience]'));
     const success = document.getElementById('enquiry-success') as HTMLElement;
     let dirty = false;
     let pressedOnBackdrop = false;
 
     const show = (audience: string) => {
       forms.forEach((f) => (f.hidden = f.dataset.enquiryForm !== audience));
-      subs.forEach((s) => (s.hidden = s.dataset.enquirySub !== audience));
+      audiences.forEach((b) => b.setAttribute('aria-pressed', String(b.dataset.enquiryAudience === audience)));
+      switcher.hidden = false;
       success.hidden = true;
     };
 
@@ -261,6 +278,8 @@ const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Fie
       if (trigger) {
         e.preventDefault();
         open(trigger.dataset.enquire === 'school' ? 'school' : 'parent');
+      } else if (target.closest('[data-enquiry-audience]')) {
+        show(target.closest<HTMLElement>('[data-enquiry-audience]')?.dataset.enquiryAudience ?? 'parent');
       } else if (target.closest('[data-close-enquiry]')) {
         dialog.close();
       } else if (target === dialog && pressedOnBackdrop && !dirty) {
@@ -366,7 +385,7 @@ const forms: Array<{ audience: 'school' | 'parent'; heading: string; fields: Fie
 
           form.reset();
           forms.forEach((f) => (f.hidden = true));
-          subs.forEach((s) => (s.hidden = true));
+          switcher.hidden = true;
           dirty = false;
           dialog.querySelector('.overflow-y-auto')?.scrollTo({ top: 0 });
           success.hidden = false;

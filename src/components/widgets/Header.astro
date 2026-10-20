@@ -80,7 +80,7 @@ const persistKey = `header-${Array.from(
           'lg:flex lg:justify-between': position !== 'center',
         },
         {
-          'lg:grid lg:grid-cols-3 lg:items-center': position === 'center',
+          'lg:grid lg:grid-cols-[auto_1fr_auto] lg:items-center lg:gap-6': position === 'center',
         },
         {
           'max-w-7xl': !isFullWidth,
@@ -96,11 +96,11 @@ const persistKey = `header-${Array.from(
         </div>
       </div>
       <nav
-        class="items-center w-full lg:w-auto hidden lg:flex lg:mx-5 text-default overflow-y-auto overflow-x-hidden lg:overflow-visible lg:justify-self-center"
+        class="items-center w-full lg:w-auto hidden lg:flex text-default overflow-y-auto overflow-x-hidden lg:overflow-visible lg:justify-self-center"
         aria-label="Main navigation"
       >
         <ul
-          class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-xl lg:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center"
+          class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-xl lg:text-sm xl:text-[0.9375rem] tracking-[0.01rem] font-medium lg:justify-center"
         >
           {
             links.map(({ text, href, links }) => (
@@ -136,7 +136,7 @@ const persistKey = `header-${Array.from(
                 ) : (
                   <a
                     class:list={[
-                      'hover:text-link dark:hover:text-white px-4 py-3 flex items-center whitespace-nowrap',
+                      'hover:text-link dark:hover:text-white px-4 lg:px-2.5 xl:px-3.5 py-3 flex items-center whitespace-nowrap',
                       { 'aw-link-active': isActive(href) },
                     ]}
                     href={href}
@@ -172,9 +172,12 @@ const persistKey = `header-${Array.from(
           </div>
           {
             actions?.length ? (
-              <span class="ml-4 rtl:ml-0 rtl:mr-4">
+              <span class="flex gap-2">
                 {actions.map((btnProps) => (
-                  <Button {...btnProps} class="ml-2 py-2.5 px-5.5 lg:px-6 font-semibold shadow-none text-sm w-auto" />
+                  <Button
+                    {...btnProps}
+                    class="py-2.5 px-5.5 lg:px-6 font-semibold shadow-none text-sm w-auto whitespace-nowrap"
+                  />
                 ))}
               </span>
             ) : (

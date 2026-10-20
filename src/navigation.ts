@@ -12,7 +12,7 @@ export const headerData = {
   ],
   actions: [
     {
-      text: 'Ask About Upcoming Programs',
+      text: 'Enquire Now',
       href: getPermalink('/#upcoming'),
       variant: 'primary' as const,
       'data-enquire': 'parent',
@@ -42,8 +42,8 @@ export const footerData = {
     {
       title: 'Enquire',
       links: [
-        { text: 'Bring CHALLO to Your School', href: getPermalink('/#upcoming'), 'data-enquire': 'school' },
-        { text: 'Ask About Upcoming Programs', href: getPermalink('/#upcoming'), 'data-enquire': 'parent' },
+        { text: 'For Schools', href: getPermalink('/#upcoming'), 'data-enquire': 'school' },
+        { text: 'For Families', href: getPermalink('/#upcoming'), 'data-enquire': 'parent' },
         { text: 'FAQ', href: getPermalink('/#faq') },
       ],
     },
